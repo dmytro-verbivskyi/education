@@ -1,0 +1,24 @@
+package codewars;
+
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+
+
+public class DescendingOrderTest {
+
+    @Test
+    public void test_01() {
+        assertEquals(0, DescendingOrder.sortDesc(0));
+    }
+
+    @Test
+    public void test_02() {
+        assertEquals(51, DescendingOrder.sortDesc(15));
+    }
+
+    @Test
+    public void test_03() {
+        assertEquals(986321100, DescendingOrder.sortDesc(110236809));
+    }
+}
