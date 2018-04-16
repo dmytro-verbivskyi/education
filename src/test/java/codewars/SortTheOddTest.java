@@ -30,4 +30,14 @@ public class SortTheOddTest {
     public void onlyOdd() {
         assertThat(SortTheOdd.sortArray(new int[]{5, 3})).containsExactly(3, 5);
     }
+
+    @Test
+    public void duplicatesAroundEven() {
+        assertThat(SortTheOdd.sortArray(new int[]{3, 5, 2, 5, 1})).containsExactly(1, 3, 2, 5, 5);
+    }
+
+    @Test
+    public void negativeZeroAndPositive() {
+        assertThat(SortTheOdd.sortArray(new int[]{3, -5, -4, 7, 0, -10, -9})).containsExactly(-9, -5, -4, 3, 0, -10, 7);
+    }
 }
