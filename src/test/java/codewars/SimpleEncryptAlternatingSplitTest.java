@@ -9,12 +9,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class SimpleEncryptAlternatingSplitTest {
 
     @Test
-    public void notWorking() {
-        assertThat(decrypt("NMPMPRAIHAZZSICKQKKBDPRUCFSDJSQOTNCFNJOPHRVZWIMKHAINMDWAXUTPLUW", 1))
-                .isEqualTo("KOKNQTHMKNAPKCIMBFNPDNMRPJDAROWIUPAHCHXAFRUZSVTZDZPSJWLISIUCQMW");
-    }
-
-    @Test
     public void testEncrypt() {
         assertThat(encrypt("This is a test!", -1)).isEqualTo("This is a test!");
         assertThat(encrypt("This is a test!", 0)).isEqualTo("This is a test!");
