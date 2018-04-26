@@ -3,32 +3,33 @@ package codewars;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RomanNumbersEncoder {
+class RomanNumbersEncoder {
 
-    public String solution(int value) {
-        List<Integer> arr = new ArrayList<>();
+    private static String[][] literals = new String[][]{
+            {"",     "",     "",     ""},     // 0
+            {"I",    "X",    "C",    "M"},    // 1
+            {"II",   "XX",   "CC",   "MM"},   // 2
+            {"III",  "XXX",  "CCC",  "MMM"},  // 3
+            {"IV",   "XL",   "CD",   null},   // 4
+            {"V",    "L",    "D",    null},   // 5
+            {"VI",   "LX",   "DC",   null},   // 6
+            {"VII",  "LXX",  "DCC",  null},   // 7
+            {"VIII", "LXXX", "DCCC", null},   // 8
+            {"IX",   "XC",   "CM",   null}    // 9
+    };
+
+    String solution(int value) {
+        List<Integer> digits = new ArrayList<>();
         while (value / 10 > 0) {
-            arr.add(value % 10);
+            digits.add(value % 10);
             value = value / 10;
         }
-        arr.add(value % 10);
+        digits.add(value % 10);
 
         StringBuilder sb = new StringBuilder();
-
-        for (Integer n : arr) {
-            switch (n) {
-                case 1: sb.append("I"); break;
-                case 2: sb.append("II"); break;
-                case 3: sb.append("III"); break;
-                case 4: sb.append("IV"); break;
-                case 5: sb.append("V"); break;
-                case 6: sb.append("VI"); break;
-                case 7: sb.append("VII"); break;
-                case 8: sb.append("VIII"); break;
-                case 9: sb.append("IX"); break;
-            }
+        for (int pos = 0; pos < digits.size(); pos++) {
+            sb.insert(0, literals[digits.get(pos)][pos]);
         }
-
         return sb.toString();
     }
 }
