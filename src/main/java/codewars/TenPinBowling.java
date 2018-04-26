@@ -1,10 +1,11 @@
 package codewars;
 
 public class TenPinBowling {
+
     static int bowling_score(String frames) {
         int score = 0;
-        String[] fr = frames.split(" ", 10);
-        int[] framesNumbers = parseStringToFrames(fr);
+        String[] frameStrings = frames.split(" ", 10);
+        int[] framesNumbers = parseStringToFrames(frameStrings);
 
         for (int frame = 0, throwIndex = 0; frame < 10; frame++) {
             if (10 == framesNumbers[throwIndex]) {
@@ -26,22 +27,8 @@ public class TenPinBowling {
 
         int currentThrow = 0;
         for (String currentFrame : framesStr) {
-            if (currentFrame.contains("X")) {
-                if (currentFrame.length() == 1) {
-                    frames[currentThrow++] = 10;
-                } else {
-                    for(int pins : getFramePinNumbers(currentFrame)) {
-                        frames[currentThrow++] = pins;
-                    }
-                }
-            } else if (currentFrame.contains("/")) {
-                int first = Integer.parseInt(currentFrame.substring(0, 1));
-                frames[currentThrow++] = first;
-                frames[currentThrow++] = 10 - first;
-            } else {
-                int combined = Integer.parseInt(currentFrame);
-                frames[currentThrow++] = combined / 10;
-                frames[currentThrow++] = combined % 10;
+            for(int pins : getFramePinNumbers(currentFrame)) {
+                frames[currentThrow++] = pins;
             }
         }
         return frames;
