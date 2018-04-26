@@ -2,84 +2,99 @@ package codewars;
 
 import org.junit.Test;
 
+import java.util.UUID;
+
+import static codewars.SimpleEncryptIndexDifference.decrypt;
+import static codewars.SimpleEncryptIndexDifference.encrypt;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class SimpleEncryptIndexDifferenceTest {
 
-    SimpleEncryptIndexDifference indexDifference = new SimpleEncryptIndexDifference();
+    @Test
+    public void randomTest() {
+        String uuidStr = UUID.randomUUID().toString();
+        String encrypted = encrypt(uuidStr);
+
+        assertThat(decrypt(encrypted)).isEqualTo(uuidStr);
+    }
 
     @Test
     public void nullTest() {
-        assertThat(indexDifference.encrypt(null)).isEqualTo(null);
+        assertThat(encrypt(null)).isEqualTo(null);
     }
 
     @Test
     public void emptyTest() {
-        assertThat(indexDifference.encrypt("")).isEqualTo("");
+        assertThat(encrypt("")).isEqualTo("");
     }
 
     @Test
     public void oneCharTest() {
-        assertThat(indexDifference.encrypt("C")).isEqualTo("%");
+        assertThat(encrypt("C")).isEqualTo("%");
     }
 
     @Test
     public void twoCharsTest() {
-        assertThat(indexDifference.encrypt("C4")).isEqualTo("%X");
+        assertThat(encrypt("C4")).isEqualTo("%X");
     }
 
     @Test
     public void repeatingTest() {
-        assertThat(indexDifference.encrypt("DDDDDD")).isEqualTo("$zazaz");
-        assertThat(indexDifference.encrypt("DDADDA")).isEqualTo("$zdwa2");
+        assertThat(encrypt("DDDDDD")).isEqualTo("$zazaz");
+        assertThat(encrypt("DDADDA")).isEqualTo("$zdwa2");
     }
 
     @Test
     public void businessTest() {
-        assertThat(indexDifference.encrypt("Business")).isEqualTo("&61kujla");
+        assertThat(encrypt("Business")).isEqualTo("&61kujla");
     }
 
     @Test
     public void thisIsTheTest() {
-        assertThat(indexDifference.encrypt("This is a test!")).isEqualTo("5MyQa9p0riYplZc");
+        assertThat(encrypt("This is a test!")).isEqualTo("5MyQa9p0riYplZc");
     }
 
     @Test
     public void thisKataIsVeryInteresting() {
-        assertThat(indexDifference
-                .encrypt("This kata is very interesting!"))
+        assertThat(encrypt("This kata is very interesting!"))
                 .isEqualTo("5MyQa79H'ijQaw!Ns6jVtpmnlZ.V6p");
     }
 
     @Test
     public void kobayashiMaruTest() {
-        assertThat(indexDifference
-                .encrypt("Do the kata \"Kobayashi-Maru-Test!\" Endless fun and excitement when finding a solution!"))
+        assertThat(encrypt("Do the kata \"Kobayashi-Maru-Test!\" Endless fun and excitement when finding a solution!"))
                 .isEqualTo("$-Wy,dM79H'i'o$n0C&I.ZTcMJw5vPlZc Hn!krhlaa:khV mkL;gvtP-S7Rt1Vp2RV:wV9VuhO Iz3dqb.U0w");
     }
 
     @Test
     public void businessDecryptTest() {
-        assertThat(indexDifference.decrypt("&61kujla")).isEqualTo("Business");
+        assertThat(decrypt("&61kujla")).isEqualTo("Business");
     }
 
     @Test
     public void thisIsTheTestDecrypt() {
-        assertThat(indexDifference.decrypt("5MyQa9p0riYplZc")).isEqualTo("This is a test!");
+        assertThat(decrypt("5MyQa9p0riYplZc")).isEqualTo("This is a test!");
     }
 
     @Test
     public void thisKataIsVeryInterestingDecrypt() {
-        assertThat(indexDifference
-                .decrypt("5MyQa79H'ijQaw!Ns6jVtpmnlZ.V6p"))
+        assertThat(decrypt("5MyQa79H'ijQaw!Ns6jVtpmnlZ.V6p"))
                 .isEqualTo("This kata is very interesting!");
     }
 
     @Test
     public void kobayashiMaruDecryptTest() {
-        assertThat(indexDifference
-                .decrypt("$-Wy,dM79H'i'o$n0C&I.ZTcMJw5vPlZc Hn!krhlaa:khV mkL;gvtP-S7Rt1Vp2RV:wV9VuhO Iz3dqb.U0w"))
+        assertThat(decrypt("$-Wy,dM79H'i'o$n0C&I.ZTcMJw5vPlZc Hn!krhlaa:khV mkL;gvtP-S7Rt1Vp2RV:wV9VuhO Iz3dqb.U0w"))
                 .isEqualTo("Do the kata \"Kobayashi-Maru-Test!\" Endless fun and excitement when finding a solution!");
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void invalidCharShouldThrowError() {
+        encrypt("char '@' is not allowed");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void decryptInvalidCharShouldThrowError() {
+        decrypt("char '@' is not allowed");
+    }
 }
