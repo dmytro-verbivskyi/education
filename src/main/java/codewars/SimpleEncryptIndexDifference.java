@@ -17,20 +17,22 @@ public class SimpleEncryptIndexDifference {
         }
     }
 
-    String encrypt(String text) {
+    static String encrypt(String text) {
         if (text == null || text.isEmpty()) {
             return text;
         }
+        validate(text);
         char[] stepOne = stepOneEncrypt(text.toCharArray());
         char[] stepTwo = stepTwoEncrypt(stepOne);
         stepThree(stepTwo);
         return new String(stepTwo);
     }
 
-    String decrypt(String encrypted) {
+    static String decrypt(String encrypted) {
         if (encrypted == null || encrypted.isEmpty()) {
             return encrypted;
         }
+        validate(encrypted);
         char[] input = encrypted.toCharArray();
         stepThree(input);
         char[] stepTwo = stepTwoDecrypt(input);
@@ -38,7 +40,17 @@ public class SimpleEncryptIndexDifference {
         return new String(stepOneEncrypt(stepTwo));
     }
 
-    private char[] stepOneEncrypt(char[] text) {
+    private static void validate(String text) {
+        char[] textChars = text.toCharArray();
+
+        for (char c : textChars) {
+            if (!indexMap.containsKey(c)) {
+                throw new IllegalArgumentException("there not allowed chars");
+            }
+        }
+    }
+
+    private static char[] stepOneEncrypt(char[] text) {
         char[] stepOneResult = new char[text.length];
 
         for (int i = 0; i < text.length; i++) {
@@ -51,19 +63,19 @@ public class SimpleEncryptIndexDifference {
         return stepOneResult;
     }
 
-    private char[] stepTwoEncrypt(char[] stepOne) {
+    private static char[] stepTwoEncrypt(char[] stepOne) {
         char[] stepTwo = new char[stepOne.length];
         char[] original = stepOne;
         return stepTwoModification(original, stepOne, stepTwo);
     }
 
-    private char[] stepTwoDecrypt(char[] stepOne) {
+    private static char[] stepTwoDecrypt(char[] stepOne) {
         char[] stepTwo = new char[stepOne.length];
         char[] original = stepTwo;
         return stepTwoModification(original, stepOne, stepTwo);
     }
 
-    private char[] stepTwoModification(char[] original, char[] stepOne, char[] stepTwo) {
+    private static char[] stepTwoModification(char[] original, char[] stepOne, char[] stepTwo) {
         stepTwo[0] = stepOne[0];
 
         for (int i = 0; i < stepOne.length - 1; i++) {
@@ -73,7 +85,7 @@ public class SimpleEncryptIndexDifference {
         return stepTwo;
     }
 
-    private void stepThree(char[] stepTwo) {
+    private static void stepThree(char[] stepTwo) {
         stepTwo[0] = index[index.length - 1 - indexMap.get(stepTwo[0])];
     }
 
