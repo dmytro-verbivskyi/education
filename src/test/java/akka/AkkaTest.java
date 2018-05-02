@@ -5,29 +5,32 @@ import akka.actor.ActorSystem;
 import akka.actor.Props;
 import akka.testkit.TestActor;
 import akka.testkit.TestKit;
+import akka.util.Timeout;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import scala.concurrent.duration.Duration;
 
-import java.util.concurrent.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.TimeUnit;
 
 import static akka.pattern.PatternsCS.ask;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 public class AkkaTest {
 
     private static ActorSystem system = null;
 
     @BeforeClass
-    public static void setup() {
+    public static void setUp() {
         system = ActorSystem.create("test-system");
     }
 
     @AfterClass
-    public static void teardown() {
+    public static void tearDown() {
         TestKit.shutdownActorSystem(system, Duration.apply(1000, TimeUnit.MILLISECONDS), true);
         system = null;
     }
@@ -54,8 +57,7 @@ public class AkkaTest {
         CompletableFuture<Object> future =
                 ask(wordCounterActorRef, new WordCounterActor.CountWords("this is a text"), 1000).toCompletableFuture();
 
-        Integer numberOfWords = (Integer) future.get();
-        assertTrue("The actor should count 4 words", 4 == numberOfWords);
+        assertThat((Integer) future.get()).as("The actor should count 4 words").isEqualTo(4);
     }
 
     @Test
@@ -66,13 +68,12 @@ public class AkkaTest {
         CompletableFuture<Object> future =
                 ask(wordCounterActorRef, new WordCounterActor.CountWords(null), 1000).toCompletableFuture();
 
-        try {
-            future.get(1000, TimeUnit.MILLISECONDS);
-        } catch (ExecutionException e) {
-            assertTrue("Invalid error message", e.getMessage().contains("The text to process can't be null!"));
-        } catch (InterruptedException | TimeoutException e) {
-            fail("Actor should respond with an exception instead of timing out !");
-        }
+        assertThatExceptionOfType(ExecutionException.class)
+                .isThrownBy(() -> {
+                    future.get(1000, TimeUnit.MILLISECONDS);
+                })
+                .withMessageContaining("The text to process can't be null!")
+                .withRootCauseInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
@@ -88,6 +89,13 @@ public class AkkaTest {
         readingActorRef.tell(new ReadingActor.ReadLines(), ActorRef.noSender());    //ActorRef.noSender() means the sender ref is akka://test-system/deadLetters
 
 //        Future<Terminated> terminateResponse = system.terminate();
+    }
+
+    @Test
+    public void givenAnAkkaSystem_countTheWordsInAText_bySystem() {
+        ActorRef readingActorRef = system.actorOf(ReadingActor.props(TEXT), "readingActor");
+
+        ask(readingActorRef, new ReadingActor.ReadLines(), Timeout.apply(2000, TimeUnit.MILLISECONDS));
     }
 
     private static String TEXT = "Lorem Ipsum is simply dummy text\n" +
