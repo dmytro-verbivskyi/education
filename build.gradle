@@ -1,7 +1,21 @@
+buildscript {
+    ext {
+        springBootVersion = '2.0.1.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
 group 'com.dverbivskyi'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
 
 sourceCompatibility = 1.8
 
@@ -12,42 +26,11 @@ repositories {
 dependencies {
     compile group: 'com.typesafe.akka', name: 'akka-actor_2.12', version: '2.5.11'
     compile group: 'com.google.guava', name: 'guava', version: '19.0'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
 
     testCompile group: 'junit', name: 'junit', version: '4.12'
     testCompile group: 'org.assertj', name: 'assertj-core', version: '3.9.0'
     testCompile group: 'com.typesafe.akka', name: 'akka-testkit_2.12', version: '2.5.11'
+    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test'
 }
-
-
-/*
-<dependency>
-            <groupId>com.typesafe.akka</groupId>
-            <artifactId>akka-actor_2.12</artifactId>
-            <version>2.5.11</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>19.0</version>
-        </dependency>
-
-        <!--    TESTING scope    -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.8.2</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.assertj</groupId>
-            <artifactId>assertj-core</artifactId>
-            <version>3.3.0</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.typesafe.akka</groupId>
-            <artifactId>akka-testkit_2.12</artifactId>
-            <version>2.5.11</version>
-            <scope>test</scope>
-        </dependency>
- */
