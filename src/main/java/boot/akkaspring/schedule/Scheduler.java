@@ -63,7 +63,9 @@ public class Scheduler {
 
         // Use the Spring Extension to create props for a named actor bean
         migrationActor = system.actorOf(
-                springExtension.props("migrationActor").withRouter(new BalancingPool(paramsHolder.getActorsCount())));
+                springExtension.props("migrationActor")
+                        .withRouter(new BalancingPool(paramsHolder.getActorsCount()))
+        );
         masterActor = system.actorOf(springExtension.props("masterActor"));
     }
 
