@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 
 import static akka.pattern.PatternsCS.ask;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatCode;
 
 public class AkkaTest {
 
@@ -67,13 +67,10 @@ public class AkkaTest {
         CompletableFuture<Object> future =
                 ask(wordCounterActorRef, new WordCounterActor.CountWords(null), 1000).toCompletableFuture();
 
-        assertThatExceptionOfType(ExecutionException.class)
-                .isThrownBy(() -> {
-                            future.get(1000, TimeUnit.MILLISECONDS);
-                        }
-                )
-                .withMessageContaining("The text to process can't be null!")
-                .withRootCauseInstanceOf(IllegalArgumentException.class);
+        assertThatCode(() -> future.get(1000, TimeUnit.MILLISECONDS))
+                .isExactlyInstanceOf(ExecutionException.class)
+                .hasMessageContaining("The text to process can't be null!")
+                .hasRootCauseExactlyInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
