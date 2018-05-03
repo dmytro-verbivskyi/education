@@ -2,14 +2,13 @@ package akka;
 
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
+import akka.actor.DeadLetter;
 import akka.actor.Props;
 import akka.testkit.TestActor;
 import akka.testkit.TestKit;
-import akka.util.Timeout;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import scala.concurrent.duration.Duration;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -31,7 +30,7 @@ public class AkkaTest {
 
     @AfterClass
     public static void tearDown() {
-        TestKit.shutdownActorSystem(system, Duration.apply(1000, TimeUnit.MILLISECONDS), true);
+//        TestKit.shutdownActorSystem(system, Duration.apply(1000, TimeUnit.MILLISECONDS), true);
         system = null;
     }
 
@@ -70,8 +69,9 @@ public class AkkaTest {
 
         assertThatExceptionOfType(ExecutionException.class)
                 .isThrownBy(() -> {
-                    future.get(1000, TimeUnit.MILLISECONDS);
-                })
+                            future.get(1000, TimeUnit.MILLISECONDS);
+                        }
+                )
                 .withMessageContaining("The text to process can't be null!")
                 .withRootCauseInstanceOf(IllegalArgumentException.class);
     }
@@ -79,23 +79,39 @@ public class AkkaTest {
     @Test
     public void givenAnAkkaSystem_countTheWordsInAText() {
         ActorSystem system = ActorSystem.create("test-system");
-        ActorRef myActorRef = system.actorOf(Props.create(MyActor.class), "my-actor");
-        myActorRef.tell("printit", null);
-//        system.stop(myActorRef);
-//        myActorRef.tell(PoisonPill.getInstance(), ActorRef.noSender());
-//        myActorRef.tell(Kill.getInstance(), ActorRef.noSender());
 
         ActorRef readingActorRef = system.actorOf(ReadingActor.props(TEXT), "readingActor");
-        readingActorRef.tell(new ReadingActor.ReadLines(), ActorRef.noSender());    //ActorRef.noSender() means the sender ref is akka://test-system/deadLetters
-
-//        Future<Terminated> terminateResponse = system.terminate();
+        readingActorRef.tell(new ReadingActor.ReadLines(), ActorRef.noSender());
     }
 
     @Test
-    public void givenAnAkkaSystem_countTheWordsInAText_bySystem() {
-        ActorRef readingActorRef = system.actorOf(ReadingActor.props(TEXT), "readingActor");
+    public void TODO_testDeadLettersBox() throws Exception {
+//        ActorRef myActorRef = system.actorOf(Props.create(MyActor.class), "my-actor");
+//        myActorRef.tell("This should go to deadLetter", ActorRef.noSender());
 
-        ask(readingActorRef, new ReadingActor.ReadLines(), Timeout.apply(2000, TimeUnit.MILLISECONDS));
+        final TestKit probe = new TestKit(system);
+        ActorRef myActorRef = probe.childActorOf(Props.create(MyActor.class));
+        myActorRef.tell("This should go back to deadLetter", ActorRef.noSender());
+
+        system.eventStream().subscribe(probe.testActor(), DeadLetter.class);
+        ActorRef deadLetters = system.deadLetters();
+        int a = 34;
+    }
+
+    @Test
+    public void TODO_verifyWorkOfPoisonPill() throws Exception {
+//        ActorSystem system = ActorSystem.create("test-system");
+//        ActorRef myActorRef = system.actorOf(Props.create(MyActor.class), "my-actor");
+//        myActorRef.tell("printit", null);
+//        system.stop(myActorRef);
+//        myActorRef.tell(PoisonPill.getInstance(), ActorRef.noSender());
+//        myActorRef.tell(Kill.getInstance(), ActorRef.noSender());
+    }
+
+    @Test
+    public void TODO_verifyTerminateSystem() throws Exception {
+//        ActorSystem system = ActorSystem.create("test-system");
+//        Future<Terminated> terminateResponse = system.terminate();
     }
 
     private static String TEXT = "Lorem Ipsum is simply dummy text\n" +
