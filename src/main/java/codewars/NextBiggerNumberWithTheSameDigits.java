@@ -1,51 +1,46 @@
 package codewars;
 
-import java.util.ArrayList;
+import com.google.common.collect.Collections2;
+import com.google.common.collect.Lists;
+
+import java.util.Collections;
 import java.util.List;
 
 class NextBiggerNumberWithTheSameDigits {
 
     static long nextBiggerNumber(long value) {
-        List<Long> digits = new ArrayList<>();
+        List<Long> digits = getDigitsList(value);
+        List<Long> variants = Lists.newArrayList();
+
+        for (List<Long> variant : Collections2.permutations(digits)) {
+            double next = generateDigit(variant);
+            if (next > value) {
+                variants.add((long) next);
+            }
+        }
+        if (variants.isEmpty()) {
+            return -1;
+        }
+        Collections.sort(variants);
+        return variants.get(0);
+    }
+
+    private static List<Long> getDigitsList(long value) {
+        List<Long> digits = Lists.newArrayList();
         while (value / 10 > 0) {
             digits.add(value % 10);
             value = value / 10;
         }
         digits.add(value % 10);
+        return digits;
+    }
 
-        /*
-        1234
-        1243
-        1423
-        1432
-        1342
-        1324
-
-        3124
-        3142
-        3412
-        3421
-        3241
-        3214
-
-        2314
-        2341
-        2431
-        2413
-        2143
-        2134
-
-        --
-        4132
-        4123
-        4213
-        4231
-        4321
-        4312
-         */
-
-
-        return -1;
+    private static double generateDigit(List<Long> digits) {
+        double number = 0.0;
+        for (int i = 0; i < digits.size(); i++) {
+            number += digits.get(i) * Math.pow(10, i);
+        }
+        return number;
     }
 
 }

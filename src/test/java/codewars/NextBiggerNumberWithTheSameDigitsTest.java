@@ -11,7 +11,7 @@ public class NextBiggerNumberWithTheSameDigitsTest {
     public void wrongVariants() {
         assertThat(nextBiggerNumber(9)).isEqualTo(-1);
         assertThat(nextBiggerNumber(111)).isEqualTo(-1);
-        assertThat(nextBiggerNumber(513)).isEqualTo(-1);
+        assertThat(nextBiggerNumber(531)).isEqualTo(-1);
     }
 
     @Test
@@ -26,6 +26,11 @@ public class NextBiggerNumberWithTheSameDigitsTest {
 
     @Test
     public void notSmallNumberTest() {
-        assertThat(nextBiggerNumber(10010099)).isEqualTo(10090019);
+        assertThat(nextBiggerNumber(10010099)).isEqualTo(10010909);
+    }
+
+    @Test
+    public void notSmall() {
+        assertThat(nextBiggerNumber(1234)).isEqualTo(1243);
     }
 }
