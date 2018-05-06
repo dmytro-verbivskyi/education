@@ -62,12 +62,16 @@ public class MigrationActor extends AbstractActor {
     }
 
     private void onSend(Send send) {
-        LOGGER.info("Start call service by onSend...");
+        LOGGER.info("Start call service by onSend... {}, {}, {}, {}"
+                , this.toString()
+                , Thread.currentThread().getId()
+                , Thread.currentThread().getName()
+        );
 
         ServiceRequest request = new ServiceRequest();
         request.setDataItem(send.dataItem);
         externalService.timeConsumingOperation(request);
 
-        LOGGER.info("Finish call to service by onSend");
+        LOGGER.info("Finish call to service by onSend " + this.toString());
     }
 }
