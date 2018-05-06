@@ -1,8 +1,12 @@
 package codewars;
 
+import com.google.common.base.Stopwatch;
 import org.junit.Test;
 
+import java.util.concurrent.TimeUnit;
+
 import static codewars.NextBiggerNumberWithTheSameDigits.nextBiggerNumber;
+import static codewars.NextBiggerNumberWithTheSameDigits.nextBiggerNumberBestPerformance;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class NextBiggerNumberWithTheSameDigitsTest {
@@ -37,5 +41,25 @@ public class NextBiggerNumberWithTheSameDigitsTest {
     @Test
     public void duplicates() {
         assertThat(nextBiggerNumber(199)).isEqualTo(919);
+    }
+
+    @Test
+    public void performanceTest() {
+        int max = 5000;
+        long input = 10010099;
+        Stopwatch stopwatch = Stopwatch.createStarted();
+
+        for (int i = 0; i < max; i++) {
+            nextBiggerNumberBestPerformance(input);
+        }
+        System.out.printf("betterWay for %d times: %s\n", max, stopwatch.elapsed(TimeUnit.MILLISECONDS));
+
+        stopwatch.reset();
+        stopwatch.start();
+
+        for (int i = 0; i < max; i++) {
+            nextBiggerNumber(input);
+        }
+        System.out.printf("myWay for %d times: %s\n", max, stopwatch.elapsed(TimeUnit.MILLISECONDS));
     }
 }
