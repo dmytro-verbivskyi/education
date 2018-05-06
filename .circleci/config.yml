@@ -10,14 +10,14 @@ jobs:
       - checkout
 
       - restore_cache:
-          key: education-{{ checksum "pom.xml" }}
+          key: education-{{ checksum "build.gradle" }}
 
       - run: mvn dependency:go-offline
 
       - save_cache:
           paths:
             - ~/.m2
-          key: education-{{ checksum "pom.xml" }}
+          key: education-{{ checksum "build.gradle" }}
 
       - run: mvn test
 
