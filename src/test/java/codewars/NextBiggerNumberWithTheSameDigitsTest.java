@@ -33,4 +33,9 @@ public class NextBiggerNumberWithTheSameDigitsTest {
     public void notSmall() {
         assertThat(nextBiggerNumber(1234)).isEqualTo(1243);
     }
+
+    @Test
+    public void duplicates() {
+        assertThat(nextBiggerNumber(199)).isEqualTo(919);
+    }
 }
