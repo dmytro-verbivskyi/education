@@ -19,7 +19,7 @@ jobs:
             - ~/.m2
           key: education-{{ checksum "build.gradle" }}
 
-      - run: mvn test
+      - run: ./gradlew test
 
       - store_test_results:
           path: target/surefire-reports
