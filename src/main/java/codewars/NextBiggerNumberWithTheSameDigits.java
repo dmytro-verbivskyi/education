@@ -19,7 +19,7 @@ class NextBiggerNumberWithTheSameDigits {
 
         void setNewBestDigitLevel(int newBestFoundLevel) {
             this.bestDigitLevel = newBestFoundLevel;
-            variants.clear(); // forgetting solutions that were worse
+            this.variants.clear(); // forgetting solutions that were worse
         }
     }
 
