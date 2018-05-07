@@ -30,9 +30,9 @@ public class SmileFacesTest {
     @Test
     public void test5() {
         List<String> a = Arrays.asList(
-                "()D", ":)", "(~D", "'8P", "8)", "(D)", ":)", "8xd", ";dD", ";~D", "oD", ";~P", ";)", "8oD", ";)", ":DD",
-                "8d", ";dD", "4)", "5)", ":Pp", "(d", ";od", "8x)", "4x", "2pdD", "ooX", ";D", "'o)", ":)", "5)", "-4P",
-                "'D", "4X", "5~DX", ":8D", "ox", ":D", ";-)");
+                "()D", ":)", "(~D", "'8P", "8)", "(D)", ":)", "8xd", ";dD", ";~D", "oD", ";~P", ";)", "8oD", ";)",
+                ":DD", "8d", ";dD", "4)", "5)", ":Pp", "(d", ";od", "8x)", "4x", "2pdD", "ooX", ";D", "'o)", ":)",
+                "5)", "-4P", "'D", "4X", "5~DX", ":8D", "ox", ":D", ";-)");
         assertEquals(9, SmileFaces.countSmileys(a));
     }
 }

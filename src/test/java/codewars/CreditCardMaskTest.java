@@ -29,6 +29,7 @@ public class CreditCardMaskTest {
 
         // "What was the name of your first pet?"
         assertEquals(Maskify.maskify("Skippy"), "##ippy");
-        assertEquals(Maskify.maskify("Nananananananananananananananana Batman!"), "####################################man!");
+        assertEquals(Maskify.maskify("Nananananananananananananananana Batman!"),
+                "####################################man!");
     }
 }

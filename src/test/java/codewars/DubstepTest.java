@@ -8,12 +8,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class DubstepTest {
 
     @Test
-    public void Test1() {
+    public void test1() {
         assertThat(songDecoder("WUBWUBABCWUB")).isEqualTo("ABC");
     }
 
     @Test
-    public void Test2() {
+    public void test2() {
         assertThat(songDecoder("RWUBWUBWUBLWUB")).isEqualTo("R L");
     }
 }

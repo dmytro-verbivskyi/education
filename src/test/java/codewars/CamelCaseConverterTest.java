@@ -84,24 +84,25 @@ public class CamelCaseConverterTest {
         System.out.println(heapMaxSize);
         System.out.println(heapFreeSize);
 
-        String s = "Lorem-Ipsum-is-simply-dummy-text_of-the-printing-and-typesetting-industry._Lorem" +
-                "-Ipsum-has-been-the-industry's-standard-dummy-text_ever-since-the-1500s,-when-an-unknown-printer-took" +
-                "-a-galley_of-type-and-scrambled-it-to-make-a-type-specimen-book._It-has-survived-not-only-five" +
-                "-centuries,-but-also-the-leap_into-electronic-typesetting,-remaining-essentially-unchanged._It-was" +
-                "-popularised-in-the-1960s-with-the-release-of-Letraset_sheets-containing-Lorem-Ipsum-passages,-and" +
-                "-more-recently-with_desktop-publishing-software-like-Aldus-PageMaker-including_versions-of-Lorem-Ipsum.";
+        String s = "Lorem-Ipsum-is-simply-dummy-text_of-the-printing-and-typesetting-industry._Lorem"
+                + "-Ipsum-has-been-the-industry's-standard-dummy-text_ever-since-the-1500s,-when-an-unknown-printer"
+                + "-took-a-galley_of-type-and-scrambled-it-to-make-a-type-specimen-book._It-has-survived-not-only-five"
+                + "-centuries,-but-also-the-leap_into-electronic-typesetting,-remaining-essentially-unchanged._It-was"
+                + "-popularised-in-the-1960s-with-the-release-of-Letraset_sheets-containing-Lorem-Ipsum-passages,-and"
+                + "-more-recently-with_desktop-publishing-software-like-Aldus-PageMaker-including_versions-of-Lorem"
+                + "-Ipsum.";
         for (int i = 0; i < 5000; i++) {
             toCamelCase(s);
         }
 
         assertThat(toCamelCase(s))
-                .isEqualTo("LoremIpsumIsSimplyDummyTextOfThePrintingAndTypesettingIndustry.LoremIpsumHasBeenThe" +
-                        "Industry'sStandardDummyTextEverSinceThe1500s,WhenAnUnknownPrinterTookAGalleyOfTypeAndScrambled" +
-                        "ItToMakeATypeSpecimenBook.ItHasSurvivedNotOnlyFiveCenturies,ButAlsoTheLeapIntoElectronic" +
-                        "Typesetting,RemainingEssentiallyUnchanged.ItWasPopularisedInThe1960sWithTheReleaseOfLetraset" +
-                        "SheetsContainingLoremIpsumPassages,AndMoreRecentlyWithDesktopPublishingSoftwareLikeAldusPage" +
-                        "MakerIncludingVersionsOfLoremIpsum."
-                );
+            .isEqualTo("LoremIpsumIsSimplyDummyTextOfThePrintingAndTypesettingIndustry.LoremIpsumHasBeenThe"
+                    + "Industry'sStandardDummyTextEverSinceThe1500s,WhenAnUnknownPrinterTookAGalleyOfTypeAnd"
+                    + "ScrambledItToMakeATypeSpecimenBook.ItHasSurvivedNotOnlyFiveCenturies,ButAlsoTheLeapInto"
+                    + "ElectronicTypesetting,RemainingEssentiallyUnchanged.ItWasPopularisedInThe1960sWithThe"
+                    + "ReleaseOfLetrasetSheetsContainingLoremIpsumPassages,AndMoreRecentlyWithDesktopPublishingSoft"
+                    + "wareLikeAldusPageMakerIncludingVersionsOfLoremIpsum."
+            );
 
         heapSize = Runtime.getRuntime().totalMemory();
         heapMaxSize = Runtime.getRuntime().maxMemory();

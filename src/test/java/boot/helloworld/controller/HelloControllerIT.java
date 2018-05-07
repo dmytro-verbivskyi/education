@@ -33,8 +33,8 @@ public class HelloControllerIT {
 
     @Test
     public void getHello() {
-        ResponseEntity<String> response = template.getForEntity(base.toString() +
-                "/hello", String.class);
+        ResponseEntity<String> response = template.getForEntity(base.toString()
+                + "/hello", String.class);
         assertThat(response.getBody()).isEqualTo("Greetings from Spring Boot!");
     }
 }

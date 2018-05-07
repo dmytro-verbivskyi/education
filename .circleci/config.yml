@@ -24,13 +24,13 @@ jobs:
           name: Checkstyle
           command: ./gradlew checkstyleMain checkstyleTest
 
-      - store_test_results:
-          path: target/surefire-reports
-
       - save_cache:
           paths:
             - ~/.gradle
           key: education-{{ checksum "build.gradle" }}
+
+      - store_test_results:
+          path: target/surefire-reports
 
       - run:
           name: Send to CodeCov
