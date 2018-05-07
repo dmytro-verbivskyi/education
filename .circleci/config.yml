@@ -16,11 +16,6 @@ jobs:
           name: Compile
           command: chmod +x ./gradlew; ./gradlew compileJava compileTestJava
 
-      - save_cache:
-          paths:
-            - ~/.gradle
-          key: education-{{ checksum "build.gradle" }}
-
       - run:
           name: Testing
           command: ./gradlew test
@@ -31,6 +26,11 @@ jobs:
 
       - store_test_results:
           path: target/surefire-reports
+
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: education-{{ checksum "build.gradle" }}
 
       - run:
           name: Send to CodeCov
