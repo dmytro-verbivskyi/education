@@ -9,7 +9,7 @@ public class TenPinBowlingTest {
 
     @Test
     public void allZeroesTest() {
-        assertThat(bowling_score("00 00 00 00 00 00 00 00 00 00")).isEqualTo(10);
+        assertThat(bowling_score("00 00 00 00 00 00 00 00 00 00")).isEqualTo(0);
     }
 
     @Test

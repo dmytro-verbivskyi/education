@@ -25,7 +25,7 @@ public class NextBiggerNumberWithTheSameDigitsTest {
         assertThat(nextBiggerNumber(2017)).isEqualTo(2071);
         assertThat(nextBiggerNumber(414)).isEqualTo(441);
         assertThat(nextBiggerNumber(144)).isEqualTo(414);
-        assertThat(nextBiggerNumber(199)).isEqualTo(9199);
+        assertThat(nextBiggerNumber(199)).isEqualTo(919);
     }
 
     @Test
