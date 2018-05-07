@@ -34,3 +34,10 @@ dependencies {
     testCompile group: 'com.typesafe.akka', name: 'akka-testkit_2.12', version: '2.5.11'
     testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test'
 }
+
+test {
+    testLogging {
+        exceptionFormat = 'full'
+        events = ["skipped", "failed"]
+    }
+}
