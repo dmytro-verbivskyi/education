@@ -3,7 +3,9 @@ package codewars;
 import java.util.HashMap;
 import java.util.Map;
 
-import static java.lang.Character.*;
+import static java.lang.Character.isUpperCase;
+import static java.lang.Character.toLowerCase;
+import static java.lang.Character.toUpperCase;
 
 public class SimpleEncryptIndexDifference {
 
