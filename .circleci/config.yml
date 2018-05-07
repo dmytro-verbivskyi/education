@@ -12,7 +12,7 @@ jobs:
       - restore_cache:
           key: education-{{ checksum "build.gradle" }}
 
-      - run: ./gradlew compile
+      - run: chmod +x ./gradlew; ./gradlew compile
 
       - save_cache:
           paths:
