@@ -9,12 +9,12 @@ public class Maskify {
         if (str.length() <= VISIBLE_CHARS) {
             return str;
         }
-        int L = str.length() - VISIBLE_CHARS;
+        int length = str.length() - VISIBLE_CHARS;
         StringBuilder sb = new StringBuilder();
 
-        for (int i = 0; i < L; i++) {
+        for (int i = 0; i < length; i++) {
             sb.append(REPLACEMENT_SYMBOL);
         }
-        return sb.append(str.substring(L)).toString();
+        return sb.append(str.substring(length)).toString();
     }
 }

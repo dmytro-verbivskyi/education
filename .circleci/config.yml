@@ -12,14 +12,22 @@ jobs:
       - restore_cache:
           key: education-{{ checksum "build.gradle" }}
 
-      - run: chmod +x ./gradlew; ./gradlew compileJava compileTestJava
+      - run:
+          name: Compile
+          command: chmod +x ./gradlew; ./gradlew compileJava compileTestJava
 
       - save_cache:
           paths:
             - ~/.gradle
           key: education-{{ checksum "build.gradle" }}
 
-      - run: ./gradlew test
+      - run:
+          name: Testing
+          command: ./gradlew test
+
+      - run:
+          name: Checkstyle
+          command: ./gradlew checkstyleMain checkstyleTest
 
       - store_test_results:
           path: target/surefire-reports

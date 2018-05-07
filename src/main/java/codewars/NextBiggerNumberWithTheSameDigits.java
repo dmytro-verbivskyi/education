@@ -75,22 +75,23 @@ class NextBiggerNumberWithTheSameDigits {
         }
         return number;
     }
-//=========================================================================================
+
+    //=========================================================================================
     // This solution shows 5 times better performance
     static long nextBiggerNumberBestPerformance(long n) {
         char[] digits = String.valueOf(n).toCharArray();
-        for (int i = digits.length-1; i > 0; i--) {
-            if (digits[i] > digits[i-1]) {
-                int nBiggerIndex = i;
-                for (int j = digits.length-1; j > i; j--) {
-                    if (digits[j] > digits[i-1]) {
-                        nBiggerIndex = j;
+        for (int i = digits.length - 1; i > 0; i--) {
+            if (digits[i] > digits[i - 1]) {
+                int biggerIndex = i;
+                for (int j = digits.length - 1; j > i; j--) {
+                    if (digits[j] > digits[i - 1]) {
+                        biggerIndex = j;
                         break;
                     }
                 }
-                char temp = digits[nBiggerIndex];
-                digits[nBiggerIndex] = digits[i-1];
-                digits[i-1] = temp;
+                char temp = digits[biggerIndex];
+                digits[biggerIndex] = digits[i - 1];
+                digits[i - 1] = temp;
                 Arrays.sort(digits, i, digits.length);
                 return Long.parseLong(new String(digits));
             }

@@ -51,10 +51,12 @@ public class ReadingActor extends AbstractActor {
 
                     for (int i = 0; i < lines.length; i++) {
                         String line = lines[i];
-                        ActorRef wordCounterActorRef = getContext().actorOf(Props.create(WordCounterActor.class), "word-counter-" + i);
+                        ActorRef wordCounterActorRef = getContext().actorOf(
+                                Props.create(WordCounterActor.class), "word-counter-" + i);
 
                         CompletableFuture<Object> future =
-                                ask(wordCounterActorRef, new WordCounterActor.CountWords(line), 1000).toCompletableFuture();
+                                ask(wordCounterActorRef, new WordCounterActor.CountWords(line), 1000)
+                                        .toCompletableFuture();
                         futures.add(future);
                     }
 
@@ -65,7 +67,7 @@ public class ReadingActor extends AbstractActor {
 
                     ActorRef printerActorRef = getContext().actorOf(Props.create(PrinterActor.class), "Printer-Actor");
                     printerActorRef.forward(new PrinterActor.PrintFinalResult(totalNumberOfWords), getContext());
-//                    printerActorRef.tell(new PrinterActor.PrintFinalResult(totalNumberOfWords), getSelf());
+                    // printerActorRef.tell(new PrinterActor.PrintFinalResult(totalNumberOfWords), getSelf());
 
                 })
                 .build();

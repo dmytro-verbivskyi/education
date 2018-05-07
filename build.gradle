@@ -16,6 +16,7 @@ version '1.0-SNAPSHOT'
 apply plugin: 'java'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
+apply plugin: 'checkstyle'
 
 sourceCompatibility = 1.8
 
@@ -40,4 +41,15 @@ test {
         exceptionFormat = 'full'
         events = ["skipped", "failed"]
     }
+}
+
+checkstyle {
+    toolVersion = "8.8"
+    configFile file("config/checkstyle/checkstyle.xml")
+}
+checkstyleMain {
+    source ='src/main/java'
+}
+checkstyleTest {
+    source ='src/test/java'
 }

@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 class Dubstep {
-    static String SongDecoder(String song) {
+    static String songDecoder(String song) {
         String[] words = song.split("WUB");
 
         return Arrays.stream(words)

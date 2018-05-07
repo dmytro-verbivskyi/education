@@ -27,7 +27,7 @@ public class TenPinBowling {
 
         int currentThrow = 0;
         for (String currentFrame : framesStr) {
-            for(int pins : getFramePinNumbers(currentFrame)) {
+            for (int pins : getFramePinNumbers(currentFrame)) {
                 frames[currentThrow++] = pins;
             }
         }

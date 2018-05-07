@@ -9,7 +9,7 @@ import java.util.stream.IntStream;
 class SortTheOdd {
 
     static int[] sortArray(int[] array) {
-//        return myImperativeWay(array);
+        // return myImperativeWay(array);
         return notMyDeclarativeWay(array);
     }
 
