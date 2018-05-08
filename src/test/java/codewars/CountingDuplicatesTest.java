@@ -27,7 +27,7 @@ public class CountingDuplicatesTest {
     }
 
     @Test
-    public void aA11ReturnsTwo() {
+    public void twoDuplicatesReturnsTwo() {
         assertThat(CountingDuplicates.duplicateCount("aA11")).isEqualTo(2);
     }
 }

@@ -38,11 +38,11 @@ public class PrinterActor extends AbstractActor {
     public Receive createReceive() {
         return receiveBuilder()
                 .match(PrintFinalResult.class,
-                        r -> {
-                            System.out.println("===========PRINTER has received stuff + " + r.totalNumberOfWords);
-                            log.info("Received PrintFinalResult message from " + getSender());
-                            log.info("The text has a total number of {} words", r.totalNumberOfWords);
-                        })
+                    r -> {
+                        System.out.println("===========PRINTER has received stuff + " + r.totalNumberOfWords);
+                        log.info("Received PrintFinalResult message from " + getSender());
+                        log.info("The text has a total number of {} words", r.totalNumberOfWords);
+                    })
                 .build();
     }
 }

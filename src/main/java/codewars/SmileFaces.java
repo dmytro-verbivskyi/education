@@ -16,12 +16,14 @@ public class SmileFaces {
         return smileys;
     }
 
-    static Set<String> smileys = new HashSet<String>() {{
-        addAll(Arrays.asList(
-                ":)", ":D", ":-)", ":-D", ":~)", ":~D",
-                ";)", ";D", ";-)", ";-D", ";~)", ";~D"
-        ));
-    }};
+    static Set<String> smileys = new HashSet<String>() {
+        {
+            addAll(Arrays.asList(
+                    ":)", ":D", ":-)", ":-D", ":~)", ":~D",
+                    ";)", ";D", ";-)", ";-D", ";~)", ";~D"
+            ));
+        }
+    };
 
     private static int hasCompleteSmileyStr(String word) {
         return smileys.contains(word) ? 1 : 0;

@@ -1,0 +1,41 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/education
+
+    docker:
+      - image: circleci/openjdk:8-jdk-browsers
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          key: education-{{ checksum "build.gradle" }}
+
+      - run:
+          name: Compile
+          command: chmod +x ./gradlew; ./gradlew compileJava compileTestJava
+
+      - run:
+          name: Testing
+          command: ./gradlew test
+
+      - run:
+          name: Checkstyle
+          command: ./gradlew checkstyleMain checkstyleTest
+
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: education-{{ checksum "build.gradle" }}
+
+      - store_test_results:
+          path: target/surefire-reports
+
+      - run:
+          name: Generate coverage report
+          command: ./gradlew jacocoTestReport
+
+      - run:
+          name: Send to CodeCov
+          command: bash <(curl -s https://codecov.io/bash)

@@ -16,6 +16,8 @@ version '1.0-SNAPSHOT'
 apply plugin: 'java'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
+apply plugin: 'checkstyle'
+apply plugin: 'jacoco'
 
 sourceCompatibility = 1.8
 
@@ -28,9 +30,35 @@ dependencies {
     compile group: 'com.google.guava', name: 'guava', version: '19.0'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
+    checkstyle group: 'com.puppycrawl.tools', name: 'checkstyle', version: '8.8'
 
     testCompile group: 'junit', name: 'junit', version: '4.12'
     testCompile group: 'org.assertj', name: 'assertj-core', version: '3.9.0'
     testCompile group: 'com.typesafe.akka', name: 'akka-testkit_2.12', version: '2.5.11'
     testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test'
+}
+
+test {
+    testLogging {
+        exceptionFormat = 'full'
+        events = ["skipped", "failed"]
+    }
+}
+
+checkstyle {
+//    toolVersion = "8.8"
+    configFile file("config/checkstyle/checkstyle.xml")
+}
+checkstyleMain {
+    source ='src/main/java'
+}
+checkstyleTest {
+    source ='src/test/java'
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        html.enabled false
+    }
 }
