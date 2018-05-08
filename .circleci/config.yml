@@ -34,7 +34,7 @@ jobs:
 
       - run:
           name: Generate coverage report
-          command: ./gradlew codeCoverageReport
+          command: ./gradlew jacocoTestReport
 
       - run:
           name: Send to CodeCov
