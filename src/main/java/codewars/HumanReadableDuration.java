@@ -7,26 +7,30 @@ import java.util.List;
 class HumanReadableDuration {
 
     static String formatDuration(int seconds) {
-        StringBuilder result = new StringBuilder();
-        int amountOfYears = seconds / 31536000;
-        int amountOfDays = (seconds -= (amountOfYears * 31536000)) / 86400;
-        int amountOfHours = (seconds -= (amountOfDays * 86400)) / 3600;
-        int amountOfMinutes = (seconds -= (amountOfHours * 3600)) / 60;
-        int amountOfSeconds = seconds - (amountOfMinutes * 60);
-
         List<String> durations = Lists.newArrayList();
+        StringBuilder result = new StringBuilder();
+
+        int amountOfYears = seconds / 31536000;
         if (amountOfYears > 0) {
             durations.add(duration(amountOfYears, "year"));
         }
+
+        int amountOfDays = (seconds -= (amountOfYears * 31536000)) / 86400;
         if (amountOfDays > 0) {
             durations.add(duration(amountOfDays, "day"));
         }
+
+        int amountOfHours = (seconds -= (amountOfDays * 86400)) / 3600;
         if (amountOfHours > 0) {
             durations.add(duration(amountOfHours, "hour"));
         }
+
+        int amountOfMinutes = (seconds -= (amountOfHours * 3600)) / 60;
         if (amountOfMinutes > 0) {
             durations.add(duration(amountOfMinutes, "minute"));
         }
+
+        int amountOfSeconds = seconds - (amountOfMinutes * 60);
         if (amountOfSeconds > 0) {
             durations.add(duration(amountOfSeconds, "second"));
         }
