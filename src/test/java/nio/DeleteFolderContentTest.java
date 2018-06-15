@@ -6,6 +6,8 @@ import org.junit.rules.ExpectedException;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.nio.channels.FileLock;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -63,23 +65,18 @@ public class DeleteFolderContentTest {
         Path dir = createTempDirectory("deleteThisDir");
         Path path = createTempFile(dir, "target1", "txt");
 
-        expectedException.expectMessage("Hello");
-//        expectedException.expectMessage("Unable to delete directory " + dir.toString());
-        expectedException.expect(IllegalArgumentException.class);
-//        expectedException.expect(UncheckedIOException.class);
-
+        expectedException.expectMessage("Unable to delete");
+        expectedException.expect(UncheckedIOException.class);
 
         try (FileOutputStream out = new FileOutputStream(path.toFile())) {
-            java.nio.channels.FileLock lock = out.getChannel().lock();
+            FileLock lock = out.getChannel().lock();
+            out.write(42);
             try {
                 service.deleteFolder(path);
-            } catch (Exception e) {
-                throw e;
             } finally {
                 lock.release();
             }
         }
-        assertThat(path.toFile()).as("We should not get here at all").exists();
     }
 
     private Path createTempDirectory(String pathStr) throws IOException {
