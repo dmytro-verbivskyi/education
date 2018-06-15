@@ -72,6 +72,7 @@ public class DeleteFolderContentTest {
             letsReadThisFileRightNow.read();
             service.deleteFolder(path);
         }
+        assertThat(path.toFile()).as("We should not get here at all").exists();
     }
 
     private Path createTempDirectory(String pathStr) throws IOException {
