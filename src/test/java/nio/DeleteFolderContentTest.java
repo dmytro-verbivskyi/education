@@ -4,7 +4,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import java.io.BufferedReader;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -68,9 +68,16 @@ public class DeleteFolderContentTest {
         expectedException.expect(IllegalArgumentException.class);
 //        expectedException.expect(UncheckedIOException.class);
 
-        try (BufferedReader letsReadThisFileRightNow = Files.newBufferedReader(path)) {
-            letsReadThisFileRightNow.read();
-            service.deleteFolder(path);
+
+        try (FileOutputStream out = new FileOutputStream(path.toFile())) {
+            java.nio.channels.FileLock lock = out.getChannel().lock();
+            try {
+                service.deleteFolder(path);
+            } catch (Exception e) {
+                throw e;
+            } finally {
+                lock.release();
+            }
         }
         assertThat(path.toFile()).as("We should not get here at all").exists();
     }
