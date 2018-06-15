@@ -3,7 +3,6 @@ package nio;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 
 import java.io.IOException;
-import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -23,7 +22,8 @@ public class DeleteFolderContent {
         try {
             FileUtils.deleteDirectory(path.getParent().toFile());
         } catch (IOException e) {
-            throw new UncheckedIOException(e);
+            throw new IllegalArgumentException("Hello");
+//            throw new UncheckedIOException(e);
         }
         return false;
     }

@@ -6,7 +6,6 @@ import org.junit.rules.ExpectedException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -64,10 +63,13 @@ public class DeleteFolderContentTest {
         Path dir = createTempDirectory("deleteThisDir");
         Path path = createTempFile(dir, "target1", "txt");
 
-        expectedException.expectMessage("Unable to delete directory " + dir.toString());
-        expectedException.expect(UncheckedIOException.class);
+        expectedException.expectMessage("Hello");
+//        expectedException.expectMessage("Unable to delete directory " + dir.toString());
+        expectedException.expect(IllegalArgumentException.class);
+//        expectedException.expect(UncheckedIOException.class);
 
         try (BufferedReader letsReadThisFileRightNow = Files.newBufferedReader(path)) {
+            letsReadThisFileRightNow.read();
             service.deleteFolder(path);
         }
     }
