@@ -4,10 +4,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import java.io.FileOutputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.UncheckedIOException;
-import java.nio.channels.FileLock;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -68,15 +67,20 @@ public class DeleteFolderContentTest {
         expectedException.expectMessage("Unable to delete");
         expectedException.expect(UncheckedIOException.class);
 
-        try (FileOutputStream out = new FileOutputStream(path.toFile())) {
-            FileLock lock = out.getChannel().lock();
-            out.write(42);
+        String os = System.getProperty("os.name").toLowerCase();
+        if (os.contains("win")) {
+            try (BufferedReader letsReadThisFileRightNow = Files.newBufferedReader(path)) {
+                service.deleteFolder(path);
+            }
+        } else {
             try {
+                Runtime.getRuntime().exec("chattr -i " + path);
                 service.deleteFolder(path);
             } finally {
-                lock.release();
+                Runtime.getRuntime().exec("chattr +i " + path);
             }
         }
+
     }
 
     private Path createTempDirectory(String pathStr) throws IOException {
