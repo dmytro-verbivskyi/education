@@ -17,8 +17,6 @@ public class StateService {
 
     private static final Log LOG = LogFactory.getLog(StateService.class);
 
-    public static final String WORKFLOW_ID = "workflow-id";
-
     private final StateMachineFactory<State, Event> factory;
 
     @Autowired

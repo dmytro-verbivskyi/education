@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 import static boot.statemachine.config.ImageProcessingStateMachine.Event;
 import static boot.statemachine.config.ImageProcessingStateMachine.State;
-import static boot.statemachine.service.StateService.WORKFLOW_ID;
+import static boot.statemachine.service.AssetService.WORKFLOW_ID_HEADER;
 import static java.lang.String.format;
 
 @Component
@@ -28,6 +28,6 @@ public class FulFillAction implements Action<State, Event> {
     @Override
     public void execute(StateContext<State, Event> context) {
         LOG.info(format("in fulfill action wf: %s; someService: %s",
-                context.getExtendedState().getVariables().getOrDefault(WORKFLOW_ID, -1L), someService));
+                context.getExtendedState().getVariables().getOrDefault(WORKFLOW_ID_HEADER, -1L), someService));
     }
 }

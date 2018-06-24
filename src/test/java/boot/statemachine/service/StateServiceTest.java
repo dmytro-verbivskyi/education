@@ -15,7 +15,7 @@ import static boot.statemachine.config.ImageProcessingStateMachine.Event;
 import static boot.statemachine.config.ImageProcessingStateMachine.Event.FULFILL;
 import static boot.statemachine.config.ImageProcessingStateMachine.Event.PAY;
 import static boot.statemachine.config.ImageProcessingStateMachine.State;
-import static boot.statemachine.service.StateService.WORKFLOW_ID;
+import static boot.statemachine.service.AssetService.WORKFLOW_ID_HEADER;
 
 
 @RunWith(SpringRunner.class)
@@ -32,7 +32,7 @@ public class StateServiceTest {
     @Test
     public void name() {
         StateMachine<State, Event> machine = factory.getStateMachine();
-        machine.getExtendedState().getVariables().putIfAbsent(WORKFLOW_ID, 32323232L);
+        machine.getExtendedState().getVariables().putIfAbsent(WORKFLOW_ID_HEADER, 32323232L);
         machine.start();
 
         machine.sendEvent(PAY);

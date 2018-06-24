@@ -1,5 +1,7 @@
 package boot.statemachine.model;
 
+import boot.statemachine.config.ImageProcessingStateMachine;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -15,6 +17,8 @@ public class Asset {
     private Long workflowId;
 
     private Date createDate;
+
+    private String state;
 
     public Long getId() {
         return id;
@@ -38,5 +42,13 @@ public class Asset {
 
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
+    }
+
+    public ImageProcessingStateMachine.State getState() {
+        return ImageProcessingStateMachine.State.valueOf(state);
+    }
+
+    public void setState(ImageProcessingStateMachine.State state) {
+        this.state = state.name();
     }
 }
