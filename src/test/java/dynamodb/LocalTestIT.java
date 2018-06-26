@@ -67,8 +67,8 @@ public class LocalTestIT {
                 MY_TABLE_NAME,
                 Arrays.asList(
                         new KeySchemaElement("year", KeyType.HASH),     // Partition key
-                        new KeySchemaElement("title", KeyType.RANGE))   // Sort key
-                , new ProvisionedThroughput(10L, 10L));
+                        new KeySchemaElement("title", KeyType.RANGE)),  // Sort key
+                new ProvisionedThroughput(10L, 10L));
 
         TableDescription tableDescription = createTableResult.getTableDescription();
         assertThat(tableDescription.getTableStatus()).isEqualTo("ACTIVE");
