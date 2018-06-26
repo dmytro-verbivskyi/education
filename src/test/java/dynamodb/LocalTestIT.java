@@ -173,6 +173,6 @@ public class LocalTestIT {
                 .withValueMap(new ValueMap().withNumber(":val", 10));
 
         DeleteItemOutcome deleteOutcome = table.deleteItem(deleteItemSpec);
-        assertThat(deleteOutcome.getItem()).isNotNull();
+        assertThat(deleteOutcome.getDeleteItemResult()).isNotNull();
     }
 }
