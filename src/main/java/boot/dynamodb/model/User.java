@@ -6,10 +6,12 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import com.google.common.base.Objects;
 
+import java.io.Serializable;
+
 import static boot.dynamodb.model.User.TABLE_NAME;
 
 @DynamoDBTable(tableName = TABLE_NAME)
-public class User {
+public class User implements Serializable {
 
     public static final String TABLE_NAME = "User";
 
@@ -62,13 +64,22 @@ public class User {
             return false;
         }
         User user = (User) o;
-        return Objects.equal(id, user.id)
-                && Objects.equal(firstName, user.firstName)
-                && Objects.equal(lastName, user.lastName);
+        return Objects.equal(getId(), user.getId())
+                && Objects.equal(getFirstName(), user.getFirstName())
+                && Objects.equal(getLastName(), user.getLastName());
     }
 
     @Override
     public int hashCode() {
         return Objects.hashCode(id, firstName, lastName);
+    }
+
+    @Override
+    public String toString() {
+        return "User{"
+                + "id='" + id + '\''
+                + ", firstName='" + firstName + '\''
+                + ", lastName='" + lastName + '\''
+                + '}';
     }
 }
