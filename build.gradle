@@ -32,6 +32,7 @@ dependencies {
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
     compile group: 'com.amazonaws', name: 'aws-java-sdk-dynamodb', version: '1.11.213'
+    compile group: 'com.github.derjust', name: 'spring-data-dynamodb', version: '5.0.2'
 
     checkstyle group: 'com.puppycrawl.tools', name: 'checkstyle', version: '8.8'
 
