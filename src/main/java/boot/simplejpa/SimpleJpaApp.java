@@ -22,7 +22,7 @@ public class SimpleJpaApp {
     public CommandLineRunner demo(UserRepository repository) {
         return (args) -> {
             // save a couple of customers
-            User u1 = repository.save(new User("Jack", "Bauer"));
+            final User u1 = repository.save(new User("Jack", "Bauer"));
             repository.save(new User("Chloe", "O'Brian"));
             repository.save(new User("Kim", "Bauer"));
             repository.save(new User("David", "Palmer"));

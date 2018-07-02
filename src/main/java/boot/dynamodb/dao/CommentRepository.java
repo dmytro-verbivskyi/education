@@ -7,11 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 @EnableScan
-public interface CommentRepository extends
-        CrudRepository<Comment, String>
-//        , QueryByExampleExecutor<Comment>
-{
-
+public interface CommentRepository extends CrudRepository<Comment, String> /*, QueryByExampleExecutor<Comment>*/ {
     /*
         ArrayList<Comment> findByCollectionIdAndAssetIdNull(String collectionId);
 
