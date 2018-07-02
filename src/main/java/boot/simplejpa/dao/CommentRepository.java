@@ -1,15 +1,12 @@
-package boot.dynamodb.dao;
+package boot.simplejpa.dao;
 
-import boot.dynamodb.model.Comment;
-import org.socialsignin.spring.data.dynamodb.repository.EnableScan;
-import org.springframework.data.repository.CrudRepository;
+import boot.simplejpa.model.Comment;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-@EnableScan
 public interface CommentRepository extends
-        CrudRepository<Comment, String>
-//        , QueryByExampleExecutor<Comment>
+        JpaRepository<Comment, String>
 {
 
     /*
