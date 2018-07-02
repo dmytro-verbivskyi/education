@@ -1,5 +1,6 @@
 package boot.dynamodb.config;
 
+import boot.dynamodb.dao.CommentRepository;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.client.builder.AwsClientBuilder;
@@ -13,7 +14,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@EnableDynamoDBRepositories(basePackages = "boot.dynamodb.dao")
+@EnableDynamoDBRepositories(basePackageClasses = {CommentRepository.class})
 public class DynamoDbConfiguration {
 
     @Value("${amazon.dynamodb.endpoint}")
