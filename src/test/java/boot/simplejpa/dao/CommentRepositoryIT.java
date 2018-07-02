@@ -31,7 +31,7 @@ public class CommentRepositoryIT {
 
     @Test
     public void findById() {
-        Comment one = aComment("u", "c", "t", "col", "a");
+        Comment one = provideComment("u", "c", "t", "col", "a");
         commentRepository.save(one);
 
         String id = one.getId();
@@ -41,7 +41,7 @@ public class CommentRepositoryIT {
 
     @Test
     public void findByUserId() {
-        Comment one = aComment("u", "c", "t", "col", "a");
+        Comment one = provideComment("u", "c", "t", "col", "a");
         commentRepository.save(one);
 
         List<Comment> list = commentRepository.findByUserId("u");
@@ -51,11 +51,11 @@ public class CommentRepositoryIT {
     @Test
     public void findByCollectionIdAndAssetIdNotNull() {
         commentRepository.saveAll(Arrays.asList(
-            aComment("u", "c1", "t", "col", null),
-            aComment("u", "c2", "t", "col", "a"),
-            aComment("u", "c3", "t", "col", "a"),
-            aComment("u", "c4", "t", "___", "a"),
-            aComment("u", "c5", "t", "___", "a")
+            provideComment("u", "c1", "t", "col", null),
+            provideComment("u", "c2", "t", "col", "a"),
+            provideComment("u", "c3", "t", "col", "a"),
+            provideComment("u", "c4", "t", "___", "a"),
+            provideComment("u", "c5", "t", "___", "a")
         ));
 
         List<Comment> list = commentRepository.findByCollectionIdAndAssetIdNotNull("col");
@@ -66,20 +66,20 @@ public class CommentRepositoryIT {
     @Test
     public void queryByExample() {
         commentRepository.saveAll(Arrays.asList(
-                aComment("u", "c1", "t", "col", null),
-                aComment("u", "c2", "t", "col", "a"),
-                aComment("u", "c3", "t", "col", "a"),
-                aComment("u", "c4", "t", "___", "a"),
-                aComment("u", "c5", "t", "___", "a")
+                provideComment("u", "c1", "t", "col", null),
+                provideComment("u", "c2", "t", "col", "a"),
+                provideComment("u", "c3", "t", "col", "a"),
+                provideComment("u", "c4", "t", "___", "a"),
+                provideComment("u", "c5", "t", "___", "a")
         ));
 
-        Comment example = aComment(null, "c5", null, null, "a");
+        Comment example = provideComment(null, "c5", null, null, "a");
         List<Comment> list = commentRepository.findAll(Example.of(example));
         assertThat(list).hasSize(1)
                 .extracting("comment", "collectionId").contains(tuple("c5", "___"));
     }
 
-    private Comment aComment(String user, String comment, String timestamp, String collection, String asset) {
+    private Comment provideComment(String user, String comment, String timestamp, String collection, String asset) {
         Comment c = new Comment();
         c.setUserId(user);
         c.setComment(comment);
