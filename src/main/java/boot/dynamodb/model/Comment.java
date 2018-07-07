@@ -8,12 +8,8 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import java.io.Serializable;
 import java.util.Objects;
 
-import static boot.dynamodb.model.Comment.TABLE_NAME;
-
-@DynamoDBTable(tableName = TABLE_NAME)
+@DynamoDBTable(tableName = "THIS_SHOULD_BE_REPLACED_FROM_PROPERTY_FILE")
 public class Comment implements Serializable {
-
-    public static final String TABLE_NAME = "comment";
 
     private String id;
     private String userId;
