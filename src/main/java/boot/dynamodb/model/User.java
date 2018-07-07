@@ -8,12 +8,8 @@ import com.google.common.base.Objects;
 
 import java.io.Serializable;
 
-import static boot.dynamodb.model.User.TABLE_NAME;
-
-@DynamoDBTable(tableName = TABLE_NAME)
+@DynamoDBTable(tableName = "THIS_SHOULD_BE_REPLACED_FROM_PROPERTY_FILE")
 public class User implements Serializable {
-
-    public static final String TABLE_NAME = "User";
 
     private String id;
     private String firstName;

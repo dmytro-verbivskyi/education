@@ -1,5 +1,6 @@
 package boot.dynamodb.dao;
 
+import boot.dynamodb.config.DynamicTableNameResolver;
 import boot.dynamodb.config.DynamoDbConfiguration;
 import boot.dynamodb.model.Comment;
 import boot.dynamodb.util.LocalDynamoDBCreationRule;
@@ -9,6 +10,7 @@ import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -20,16 +22,21 @@ import static boot.dynamodb.util.LocalDynamoDBCreationRule.Client.WILL_BE_PROVID
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = {DynamoDbConfiguration.class})
+@SpringBootTest(classes = {DynamoDbConfiguration.class, DynamicTableNameResolver.class})
 @TestPropertySource(properties = {
         "amazon.dynamodb.endpoint=http://localhost:8000",
         "amazon.aws.accesskey=access",
         "amazon.aws.secretkey=secret",
-        "amazon.aws.region=us-west-2"})
+        "dynamodb.table.name.comment=SomeDynamic-Comment-table",
+        "dynamodb.table.name.user=users"
+})
 public class CommentRepositoryIT {
 
     @ClassRule
     public static LocalDynamoDBCreationRule localDynamodb = new LocalDynamoDBCreationRule(WILL_BE_PROVIDED_BY_SPRING);
+
+    @Value("${dynamodb.table.name.comment}")
+    private String commentTableName;
 
     @Autowired
     private CommentRepository repository;
@@ -38,14 +45,14 @@ public class CommentRepositoryIT {
     private AmazonDynamoDB amazonDynamoDB;
 
     @Before
-    public void init() throws Exception {
+    public void init() {
         localDynamodb.setDynamoClient(amazonDynamoDB);
-        localDynamodb.deleteTable(Comment.TABLE_NAME);
-        localDynamodb.createTable(Comment.class);
+        localDynamodb.deleteTable(commentTableName);
+        localDynamodb.createTable(Comment.class, commentTableName);
     }
 
     @Test
-    public void findById() throws Exception {
+    public void findById() {
         Comment one = commentWithUser("user");
         repository.save(one);
 
@@ -56,7 +63,7 @@ public class CommentRepositoryIT {
     }
 
     @Test
-    public void findByIdReturnsEmptyOptional() throws Exception {
+    public void findByIdReturnsEmptyOptional() {
         final String idOfComment = "wrong-id";
 
         Optional<Comment> result = repository.findById(idOfComment);
@@ -64,7 +71,7 @@ public class CommentRepositoryIT {
     }
 
     @Test
-    public void findByUserId() throws Exception {
+    public void findByUserId() {
         String userOne = "user1";
         String userTwo = "user2";
 
@@ -82,7 +89,7 @@ public class CommentRepositoryIT {
     }
 
     @Test
-    public void findByCollectionIdAndAssetIdNotNull() throws Exception {
+    public void findByCollectionIdAndAssetIdNotNull() {
         String collectionOne = "collection1";
 
         repository.saveAll(Arrays.asList(
@@ -109,6 +116,5 @@ public class CommentRepositoryIT {
         comment.setUserId(userId);
         return comment;
     }
-
 
 }

@@ -36,7 +36,7 @@ public class LocalDynamoDBCreationRule extends ExternalResource {
     }
 
     @Override
-    protected void before() throws Throwable {
+    protected void before() {
         try {
             this.server = ServerRunner.createServerFromCommandLineArgs(new String[]{"-inMemory"});
             server.start();
@@ -86,10 +86,11 @@ public class LocalDynamoDBCreationRule extends ExternalResource {
                 .forEach(name -> dynamoClient.deleteTable(name));
     }
 
-    public void createTable(Class entityClass) {
+    public void createTable(Class entityClass, String tableName) {
         requireNonNull(dynamoClient, "To use LocalDynamoDb helper setDynamoClient() created by Spring");
         dynamoClient.createTable(new DynamoDBMapper(dynamoClient)
                 .generateCreateTableRequest(entityClass)
+                .withTableName(tableName)
                 .withProvisionedThroughput(new ProvisionedThroughput(5L, 5L)));
     }
 
