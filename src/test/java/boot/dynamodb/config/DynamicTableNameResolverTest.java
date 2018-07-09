@@ -7,7 +7,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.env.Environment;
@@ -16,8 +15,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = {DynamicTableNameResolver.class})
@@ -36,8 +34,8 @@ public class DynamicTableNameResolverTest {
     private Environment spyEnvironment;
 
     @Before
-    public void setUp() throws Exception {
-        spyEnvironment = Mockito.spy(realEnvironment);
+    public void setUp() {
+        spyEnvironment = spy(realEnvironment);
         resolver = new DynamicTableNameResolver(spyEnvironment);
     }
 
@@ -50,12 +48,12 @@ public class DynamicTableNameResolverTest {
     }
 
     @Test
-    public void getTableNameRegisterTableFromClassAnnotation() throws Exception {
+    public void getTableNameRegisterTableFromClassAnnotation() {
         assertThat(resolver.getTableName(Comment.class, emptyConfig)).isEqualTo("it-dynamic-Comment-table");
         assertThat(resolver.getTableName(Comment.class, emptyConfig)).isEqualTo("it-dynamic-Comment-table");
         assertThat(resolver.getTableName(Comment.class, emptyConfig)).isEqualTo("it-dynamic-Comment-table");
 
-        Mockito.verify(spyEnvironment, times(1)).getProperty(anyString());
+        verify(spyEnvironment, times(1)).getProperty("dynamodb.table.name.comment");
     }
 
     @Test
