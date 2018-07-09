@@ -1,39 +1,50 @@
 package boot.dynamodb.config;
 
-import boot.dynamodb.model.Comment;
-import boot.dynamodb.model.User;
+import boot.dynamodb.config.TableNameResolver.NoPropertyValueTableNameResolverException;
+import boot.dynamodb.config.TableNameResolver.NoTableNameResolverException;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperConfig;
-import com.google.common.collect.ImmutableMap;
-import org.springframework.beans.factory.annotation.Value;
+import com.google.common.collect.Maps;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.util.Map;
 
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Strings.isNullOrEmpty;
 
 @Component
 public class DynamicTableNameResolver implements DynamoDBMapperConfig.TableNameResolver {
 
-    @Value("${dynamodb.table.name.comment}")
-    private String commentTableName;
+    private final Environment env;
 
-    @Value("${dynamodb.table.name.user}")
-    private String userTableName;
+    private Map<Class, String> entityToTableName = Maps.newHashMap();
 
-    private Map<Class, String> entityToTableName;
+    @Autowired
+    public DynamicTableNameResolver(Environment env) {
+        this.env = env;
+    }
 
     @Override
     public String getTableName(Class<?> clazz, DynamoDBMapperConfig config) {
-        return entityToTableName.get(clazz);
+        String actualTableName = entityToTableName.get(clazz);
+        if (actualTableName != null) {
+            return actualTableName;
+        }
+        return tryGetFromAnnotation(clazz);
     }
 
-    @PostConstruct
-    public void postConstruct() {
-        entityToTableName = ImmutableMap.<Class, String>builder()
-                .put(Comment.class, requireNonNull(commentTableName))
-                .put(User.class, requireNonNull(userTableName))
-                .build();
+    private String tryGetFromAnnotation(Class<?> clazz) {
+        TableNameResolver tableNameResolver = clazz.getAnnotation(TableNameResolver.class);
+        if (tableNameResolver == null) {
+            throw new NoTableNameResolverException(clazz);
+        }
+
+        String actualTableName = env.getProperty(tableNameResolver.value());
+        if (isNullOrEmpty(actualTableName)) {
+            throw new NoPropertyValueTableNameResolverException(tableNameResolver.value());
+        }
+        entityToTableName.put(clazz, actualTableName);
+        return actualTableName;
     }
 
 }
