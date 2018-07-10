@@ -1,6 +1,7 @@
 package boot.dynamodb.config;
 
 import boot.dynamodb.dao.CommentRepository;
+import boot.dynamodb.util.DynamicTableNameResolver;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.client.builder.AwsClientBuilder;
@@ -14,11 +15,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 
 @Configuration
 @EnableDynamoDBRepositories(
         dynamoDBMapperConfigRef = "dynamoDBMapperConfig",
         basePackageClasses = {CommentRepository.class})
+@Import(DynamicTableNameResolver.class)
 public class DynamoDbConfiguration {
 
     @Value("${amazon.dynamodb.endpoint}")

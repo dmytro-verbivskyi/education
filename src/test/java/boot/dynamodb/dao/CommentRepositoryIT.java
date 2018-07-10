@@ -1,8 +1,8 @@
 package boot.dynamodb.dao;
 
-import boot.dynamodb.config.DynamicTableNameResolver;
 import boot.dynamodb.config.DynamoDbConfiguration;
 import boot.dynamodb.model.Comment;
+import boot.dynamodb.util.DynamicTableNameResolver;
 import boot.dynamodb.util.LocalDynamoDBCreationRule;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import org.junit.Before;
