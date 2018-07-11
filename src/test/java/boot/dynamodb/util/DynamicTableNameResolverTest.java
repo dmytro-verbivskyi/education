@@ -1,4 +1,4 @@
-package boot.dynamodb.config;
+package boot.dynamodb.util;
 
 import boot.dynamodb.model.Comment;
 import boot.dynamodb.model.User;
@@ -15,10 +15,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = {DynamicTableNameResolver.class})
+@SpringBootTest(classes = {DynamicTableNameResolver.class, DynamicTableNameResolver.class})
 @TestPropertySource(properties = {
         "dynamodb.table.name.comment=it-dynamic-Comment-table"
 })

@@ -1,4 +1,4 @@
-package boot.dynamodb.config;
+package boot.dynamodb.util;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;

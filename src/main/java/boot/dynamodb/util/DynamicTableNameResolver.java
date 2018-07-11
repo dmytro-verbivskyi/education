@@ -1,7 +1,7 @@
-package boot.dynamodb.config;
+package boot.dynamodb.util;
 
-import boot.dynamodb.config.TableNameResolver.NoPropertyValueTableNameResolverException;
-import boot.dynamodb.config.TableNameResolver.NoTableNameResolverException;
+import boot.dynamodb.util.TableNameResolver.NoPropertyValueTableNameResolverException;
+import boot.dynamodb.util.TableNameResolver.NoTableNameResolverException;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperConfig;
 import com.google.common.collect.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
