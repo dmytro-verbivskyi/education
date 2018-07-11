@@ -4,6 +4,7 @@ import boot.dynamodb.dao.CommentRepository;
 import boot.dynamodb.util.DynamicTableNameResolver;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.auth.InstanceProfileCredentialsProvider;
 import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
@@ -27,27 +28,34 @@ public class DynamoDbConfiguration {
     @Value("${amazon.dynamodb.endpoint}")
     private String amazonDynamoDBEndpoint;
 
-    @Value("${amazon.aws.accesskey}")
-    private String amazonAwsAccessKey;
-
-    @Value("${amazon.aws.secretkey}")
-    private String amazonAwsSecretKey;
-
     @Value("${amazon.aws.region}")
     private String amazonSigningRegion;
+
+    @Value("${amazon.aws.accesskey:#{null}}")
+    private String amazonAwsAccessKey;
+
+    @Value("${amazon.aws.secretkey:#{null}}")
+    private String amazonAwsSecretKey;
 
     private static final Logger LOG = LogManager.getLogger(DynamoDbConfiguration.class);
 
     @Bean
     public AmazonDynamoDB amazonDynamoDB() {
-        AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard()
-                .withCredentials(new AWSStaticCredentialsProvider(new BasicAWSCredentials(
-                        amazonAwsAccessKey, amazonAwsSecretKey))
-                )
+        AmazonDynamoDBClientBuilder clientBuilder = AmazonDynamoDBClientBuilder.standard()
                 .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration(
                         amazonDynamoDBEndpoint, amazonSigningRegion)
-                )
-                .build();
+                );
+
+        if (amazonAwsAccessKey != null && amazonAwsSecretKey != null) {
+            LOG.info("Using explicit accesskey and secretkey");
+            clientBuilder.setCredentials(new AWSStaticCredentialsProvider(new BasicAWSCredentials(
+                    amazonAwsAccessKey, amazonAwsSecretKey))
+            );
+        } else {
+            LOG.info("Using instance profile credentials");
+            clientBuilder.setCredentials(new InstanceProfileCredentialsProvider(false));
+        }
+        AmazonDynamoDB client = clientBuilder.build();
         LOG.info("Instantiating amazon dynamodb client: {}", client);
         return client;
     }
