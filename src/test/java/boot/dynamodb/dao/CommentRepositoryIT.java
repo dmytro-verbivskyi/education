@@ -28,7 +28,6 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
         "amazon.aws.accesskey=access",
         "amazon.aws.secretkey=secret",
         "dynamodb.table.name.comment=SomeDynamic-Comment-table",
-        "dynamodb.table.name.user=users"
 })
 public class CommentRepositoryIT {
 
