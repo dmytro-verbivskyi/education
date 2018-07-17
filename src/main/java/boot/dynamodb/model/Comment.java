@@ -53,8 +53,7 @@ public class Comment implements Serializable {
 
     @Override
     public String toString() {
-        return "Comment{"
-                + "id='" + id + '\''
+        return "Comment{id='" + id + '\''
                 + ", userId='" + userId + '\''
                 + ", comment='" + comment + '\''
                 + ", timestamp='" + timestamp + '\''

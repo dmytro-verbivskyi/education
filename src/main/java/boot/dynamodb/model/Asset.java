@@ -3,8 +3,10 @@ package boot.dynamodb.model;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDocument;
 import com.google.common.base.Objects;
 
+import java.io.Serializable;
+
 @DynamoDBDocument
-public class Asset {
+public class Asset implements Serializable {
 
     private Long assetId;
     private ApprovalStatus status;
@@ -47,9 +49,8 @@ public class Asset {
 
     @Override
     public String toString() {
-        return "Asset{" +
-                "assetId=" + assetId +
-                ", status=" + status +
-                '}';
+        return "Asset{assetId=" + assetId
+                + ", status=" + status
+                + '}';
     }
 }

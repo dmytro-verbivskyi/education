@@ -69,7 +69,8 @@ public class DynamoDbConfiguration {
     }
 
     @Bean
-    public DynamoDBMapper dynamoDBMapper(@Autowired AmazonDynamoDB dynamoDb, @Autowired DynamoDBMapperConfig dynamoConfig) {
+    public DynamoDBMapper dynamoDBMapper(@Autowired AmazonDynamoDB dynamoDb,
+                                         @Autowired DynamoDBMapperConfig dynamoConfig) {
         return new DynamoDBMapper(dynamoDb, dynamoConfig);
     }
 

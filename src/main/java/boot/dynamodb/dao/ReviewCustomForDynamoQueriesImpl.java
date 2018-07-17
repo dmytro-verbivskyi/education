@@ -36,9 +36,9 @@ public class ReviewCustomForDynamoQueriesImpl implements ReviewCustomForDynamoQu
     public Optional<Review> findByReviewIdAndReviewOwnerId(String reviewId, String ownerId) {
         PaginatedScanList<Review> result = getByReviewIdAndOwnerId(reviewId, ownerId);
         if (result.size() > 1) {
-            LOG.warn("There are duplicates for pair(reviewId, ownerId), size: {}, ids: [{}]"
-                    , result.size()
-                    , result.stream().map(Review::getId).collect(Collectors.joining(", ")));
+            LOG.warn("There are duplicates for pair(reviewId, ownerId), size: {}, ids: [{}]",
+                    result.size(),
+                    result.stream().map(Review::getId).collect(Collectors.joining(", ")));
         }
         return result.size() == 0 ? Optional.empty() : Optional.of(result.get(0));
     }

@@ -3,8 +3,10 @@ package boot.dynamodb.model;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDocument;
 import com.google.common.base.Objects;
 
+import java.io.Serializable;
+
 @DynamoDBDocument
-public class Owner {
+public class Owner implements Serializable {
 
     private String id;
     private String name;
@@ -54,5 +56,13 @@ public class Owner {
     @Override
     public int hashCode() {
         return Objects.hashCode(getId(), getName(), getEmail());
+    }
+
+    @Override
+    public String toString() {
+        return "Owner{id='" + id + '\''
+                + ", name='" + name + '\''
+                + ", email='" + email + '\''
+                + '}';
     }
 }
