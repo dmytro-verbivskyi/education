@@ -5,18 +5,17 @@ import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class UserTest {
+public class AssetTest {
 
     @Test
     public void coverEntity() throws Exception {
-        User one = new User();
-        one.setId("id");
-        one.setFirstName("firstName");
-        one.setLastName("lastName");
+        Asset one = new Asset()
+                .setAssetId(55L)
+                .setStatus(ApprovalStatus.REJECTED);
 
-        User two = SerializationUtils.clone(one);
-        User three = SerializationUtils.clone(one);
-        three.setLastName("another value");
+        Asset two = SerializationUtils.clone(one);
+        Asset three = SerializationUtils.clone(one);
+        three.setStatus(ApprovalStatus.PENDING);
 
         assertThat(one)
                 .isEqualTo(one)
@@ -25,6 +24,6 @@ public class UserTest {
                 .isNotEqualTo(null)
                 .isNotEqualTo("string")
                 .hasSameHashCodeAs(two)
-                .hasToString("User{id='id', firstName='firstName', lastName='lastName'}");
+                .hasToString("Asset{assetId=55, status=REJECTED}");
     }
 }

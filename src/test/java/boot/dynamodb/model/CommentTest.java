@@ -26,6 +26,7 @@ public class CommentTest {
                 .isEqualTo(two)
                 .isNotEqualTo(three)
                 .isNotEqualTo(null)
+                .isNotEqualTo("string")
                 .hasSameHashCodeAs(two)
                 .hasToString("Comment{id='id', userId='userId', comment='comment', timestamp='timestamp'"
                         + ", collectionId='collectionId', assetId='assetId'}");

@@ -38,6 +38,7 @@ public class ReviewTest {
                 .isEqualTo(two)
                 .isNotEqualTo(three)
                 .isNotEqualTo(null)
+                .isNotEqualTo("string")
                 .hasSameHashCodeAs(two)
                 .hasToString("Review{id='id',"
                         + " reviewId='reviewId',"

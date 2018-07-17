@@ -5,18 +5,18 @@ import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class UserTest {
+public class OwnerTest {
 
     @Test
     public void coverEntity() throws Exception {
-        User one = new User();
-        one.setId("id");
-        one.setFirstName("firstName");
-        one.setLastName("lastName");
+        Owner one = new Owner()
+                .setId("55L")
+                .setName("name")
+                .setEmail("email");
 
-        User two = SerializationUtils.clone(one);
-        User three = SerializationUtils.clone(one);
-        three.setLastName("another value");
+        Owner two = SerializationUtils.clone(one);
+        Owner three = SerializationUtils.clone(one);
+        three.setName("yo");
 
         assertThat(one)
                 .isEqualTo(one)
@@ -25,6 +25,6 @@ public class UserTest {
                 .isNotEqualTo(null)
                 .isNotEqualTo("string")
                 .hasSameHashCodeAs(two)
-                .hasToString("User{id='id', firstName='firstName', lastName='lastName'}");
+                .hasToString("Owner{id='55L', name='name', email='email'}");
     }
 }
