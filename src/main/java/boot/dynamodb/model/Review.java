@@ -107,4 +107,5 @@ public class Review {
     public int hashCode() {
         return Objects.hashCode(getId(), getReviewId(), getCreateDate(), getReviewOwner(), getStatus(), getAssets());
     }
+
 }
