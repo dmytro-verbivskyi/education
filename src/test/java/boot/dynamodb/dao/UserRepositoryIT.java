@@ -27,7 +27,6 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
         "amazon.aws.accesskey=access",
         "amazon.aws.secretkey=secret",
         "amazon.aws.region=us-west-2",
-        "dynamodb.table.name.comment=comment",
         "dynamodb.table.name.user=SomeDynamic-User-table"
 })
 public class UserRepositoryIT {
