@@ -8,6 +8,8 @@ import boot.dynamodb.model.Review;
 import boot.dynamodb.util.DynamicTableNameResolver;
 import boot.dynamodb.util.LocalDynamoDBCreationRule;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperConfig;
 import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.ClassRule;
@@ -16,11 +18,11 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 import static boot.dynamodb.util.LocalDynamoDBCreationRule.Client.WILL_BE_PROVIDED_BY_SPRING;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -72,16 +74,15 @@ public class ReviewRepositoryTestIT {
 
     @Test
     public void findById() {
-        assertThat(review.getId()).isNullOrEmpty();
+        assertThat(review.getId()).isNull();
         repository.save(review);
         assertThat(review.getId()).isNotNull();
 
-        Optional<Review> result = repository.findById(review.getId());
-        assertThat(result).isPresent().hasValue(review);
+        assertThat(repository.findById(review.getId())).isPresent().hasValue(review);
     }
 
     @Test
-    public void findByReviewId() throws Exception {
+    public void findByReviewId() {
         repository.save(review);
         repository.save(review.setId(null));
 
@@ -89,25 +90,16 @@ public class ReviewRepositoryTestIT {
     }
 
     @Test
-    public void shouldFindByReviewIdAndApprover() throws Exception {
+    public void findByReviewIdAndOwnerId() {
         repository.save(review);
 
-        Review actual = repository.findByReviewIdAndOwnerId(APPROVAL_ID, APPROVER_ID);
+        assertThat(repository.findByReviewIdAndOwnerId(APPROVAL_ID, APPROVER_ID)).isEqualTo(review);
+    }
 
-        assertThat(actual).isNotNull();
-//        assertThat(actual.getReviewId()).isEqualTo(CART_REVIEW.getReviewId());
-//        assertThat(actual.getUser()).isEqualTo(CART_REVIEW.getUser());
-//        assertThat(actual.getAssets()).isEqualTo(CART_REVIEW.getAssets());
-//        assertThat(actual.getStatus()).isEqualTo(CART_REVIEW.getStatus());
-//        assertThat(actual.getCreateDate()).isEqualTo(CART_REVIEW.getCreateDate());
-//        assertThat(actual.getUpdateDate()).isEqualTo(CART_REVIEW.getUpdateDate());
+
+    @Bean
+    public DynamoDBMapper dynamoDBMapper(@Autowired AmazonDynamoDB dynamoDb, @Autowired DynamoDBMapperConfig dynamoConfig) {
+        return new DynamoDBMapper(dynamoDb, dynamoConfig);
     }
-/*
-    @Test
-    public void shouldNotFindByCartReviewIdAndApprover() throws Exception {
-        CartReview cartReview = CART_REVIEW;
-        repository.save(cartReview);
-        assertThat(repository.findByReviewIdAndUserId(APPROVAL_ID, UNKNOWN_APPROVER_ID)).isNull();
-    }
-    */
+
 }

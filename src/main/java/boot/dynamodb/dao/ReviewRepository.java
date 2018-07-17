@@ -7,11 +7,9 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 @EnableScan
-public interface ReviewRepository extends CrudRepository<Review, String> {
+public interface ReviewRepository extends CrudRepository<Review, String>, ReviewCustomForDynamoQueries {
 
     List<Review> findByReviewId(String reviewId);
-
-    Review findByReviewIdAndOwnerId(String reviewId, String id);
 
 //    List<Review> findAllByReviewIdIn(List<String> reviewId);
 }
