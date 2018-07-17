@@ -2,8 +2,10 @@ package boot.dynamodb.dao;
 
 import boot.dynamodb.model.Review;
 
+import java.util.Optional;
+
 public interface ReviewCustomForDynamoQueries {
 
-    Review findByReviewIdAndOwnerId(String reviewId, String ownerId);
+    Optional<Review> findByReviewIdAndReviewOwnerId(String reviewId, String ownerId);
 
 }

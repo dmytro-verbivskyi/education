@@ -11,5 +11,6 @@ public interface ReviewRepository extends CrudRepository<Review, String>, Review
 
     List<Review> findByReviewId(String reviewId);
 
-//    List<Review> findAllByReviewIdIn(List<String> reviewId);
+    List<Review> findAllByReviewIdIn(List<String> reviewIds);
+
 }

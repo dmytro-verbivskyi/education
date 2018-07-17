@@ -8,8 +8,6 @@ import boot.dynamodb.model.Review;
 import boot.dynamodb.util.DynamicTableNameResolver;
 import boot.dynamodb.util.LocalDynamoDBCreationRule;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperConfig;
 import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.ClassRule;
@@ -18,11 +16,11 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 
 import static boot.dynamodb.util.LocalDynamoDBCreationRule.Client.WILL_BE_PROVIDED_BY_SPRING;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -55,7 +53,7 @@ public class ReviewRepositoryTestIT {
     private Review review = new Review()
             .setReviewId(APPROVAL_ID)
             .setCreateDate(LocalDateTime.now().toString())
-            .setOwner(new Owner()
+            .setReviewOwner(new Owner()
                     .setId(APPROVER_ID)
                     .setName("Avatar Aang")
                     .setEmail("avatar.aang@nick.com"))
@@ -91,15 +89,41 @@ public class ReviewRepositoryTestIT {
 
     @Test
     public void findByReviewIdAndOwnerId() {
-        repository.save(review);
+        String initialId = repository.save(review).getId();
+        repository.save(review.setId(null).setReviewOwner(new Owner().setId("Other Owner Id")));
+        repository.save(review.setId(null).setReviewId("Other Review Id"));
 
-        assertThat(repository.findByReviewIdAndOwnerId(APPROVAL_ID, APPROVER_ID)).isEqualTo(review);
+        assertThat(repository.findByReviewIdAndReviewOwnerId(APPROVAL_ID, APPROVER_ID)).hasValueSatisfying(actual -> {
+            assertThat(actual.getId()).isEqualTo(initialId);
+            assertThat(actual.getReviewId()).isEqualTo(APPROVAL_ID);
+            assertThat(actual.getReviewOwner().getId()).isEqualTo(APPROVER_ID);
+        });
     }
 
+    @Test
+    public void findByReviewIdAndOwnerIdReturnsOne_JustKeepingBackwardsCompatibility() {
+        String id_1 = repository.save(review).getId();
+        String id_2 = repository.save(review.setId(null)).getId();
+        String id_3 = repository.save(review.setId(null)).getId();
 
-    @Bean
-    public DynamoDBMapper dynamoDBMapper(@Autowired AmazonDynamoDB dynamoDb, @Autowired DynamoDBMapperConfig dynamoConfig) {
-        return new DynamoDBMapper(dynamoDb, dynamoConfig);
+        assertThat(repository.findByReviewIdAndReviewOwnerId(APPROVAL_ID, APPROVER_ID)).hasValueSatisfying(actual -> {
+            assertThat(actual.getId()).isIn(id_1, id_2, id_3);
+            assertThat(actual.getReviewId()).isEqualTo(APPROVAL_ID);
+            assertThat(actual.getReviewOwner().getId()).isEqualTo(APPROVER_ID);
+        });
     }
 
+    @Test
+    public void findByReviewIdAndOwnerIdReturnsEmptyOptional() throws Exception {
+        assertThat(repository.findByReviewIdAndReviewOwnerId("unknownReviewId", APPROVER_ID)).isNotPresent();
+    }
+
+    @Test
+    public void findAllByReviewIdIn() {
+        String reviewId_1 = repository.save(review).getReviewId();
+        String reviewId_2 = repository.save(review.setId(null)).getReviewId();
+        String reviewId_3 = repository.save(review.setId(null)).getReviewId();
+
+        assertThat(repository.findAllByReviewIdIn(Arrays.asList(reviewId_1, reviewId_2, reviewId_3))).hasSize(3);
+    }
 }
