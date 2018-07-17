@@ -44,4 +44,12 @@ public class Asset {
     public int hashCode() {
         return Objects.hashCode(getAssetId(), getStatus());
     }
+
+    @Override
+    public String toString() {
+        return "Asset{" +
+                "assetId=" + assetId +
+                ", status=" + status +
+                '}';
+    }
 }

@@ -24,7 +24,10 @@ public class Review {
     private String createDate;
 
     @DynamoDBAttribute
-    private Owner owner;
+    private Owner reviewOwner;
+
+    @DynamoDBAttribute
+    private ReviewStatus status;
 
     @DynamoDBAttribute
     private List<Asset> assets;
@@ -56,12 +59,21 @@ public class Review {
         return this;
     }
 
-    public Owner getOwner() {
-        return owner;
+    public Owner getReviewOwner() {
+        return reviewOwner;
     }
 
-    public Review setOwner(Owner owner) {
-        this.owner = owner;
+    public Review setReviewOwner(Owner reviewOwner) {
+        this.reviewOwner = reviewOwner;
+        return this;
+    }
+
+    public ReviewStatus getStatus() {
+        return status;
+    }
+
+    public Review setStatus(ReviewStatus status) {
+        this.status = status;
         return this;
     }
 
@@ -86,13 +98,13 @@ public class Review {
         return Objects.equal(getId(), review.getId())
                 && Objects.equal(getReviewId(), review.getReviewId())
                 && Objects.equal(getCreateDate(), review.getCreateDate())
-                && Objects.equal(getOwner(), review.getOwner())
+                && Objects.equal(getReviewOwner(), review.getReviewOwner())
+                && getStatus() == review.getStatus()
                 && Objects.equal(getAssets(), review.getAssets());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getId(), getReviewId(), getCreateDate(), getOwner(), getAssets());
+        return Objects.hashCode(getId(), getReviewId(), getCreateDate(), getReviewOwner(), getStatus(), getAssets());
     }
-
 }
