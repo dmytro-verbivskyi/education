@@ -110,7 +110,7 @@ public class ReviewRepositoryTestIT {
     public void findByReviewIdNull() throws Exception {
         assertThatIllegalArgumentException().isThrownBy(() ->
                 repository.findByReviewId(null)
-        ).withMessage("Creating conditions on null property values not supported: please specify a value for 'reviewId'");
+        ).withMessageStartingWith("Creating conditions on null property values not supported");
     }
 
     @Test
@@ -128,12 +128,12 @@ public class ReviewRepositoryTestIT {
 
     @Test
     public void findByReviewIdAndOwnerIdReturnsOne_JustKeepingBackwardsCompatibility() {
-        String id_1 = repository.save(review).getId();
-        String id_2 = repository.save(review.setId(null)).getId();
-        String id_3 = repository.save(review.setId(null)).getId();
+        String id1 = repository.save(review).getId();
+        String id2 = repository.save(review.setId(null)).getId();
+        String id3 = repository.save(review.setId(null)).getId();
 
         assertThat(repository.findByReviewIdAndReviewOwnerId(REVIEW_ID, APPROVER_ID)).hasValueSatisfying(actual -> {
-            assertThat(actual.getId()).isIn(id_1, id_2, id_3);
+            assertThat(actual.getId()).isIn(id1, id2, id3);
             assertThat(actual.getReviewId()).isEqualTo(REVIEW_ID);
             assertThat(actual.getReviewOwner().getId()).isEqualTo(APPROVER_ID);
         });
@@ -166,7 +166,6 @@ public class ReviewRepositoryTestIT {
 
         assertThat(repository.findAllByReviewIdIn(singletonList(REVIEW_ID))).hasSize(3);
     }
-
 
     @Test
     public void findAllByReviewIdInNull() {
