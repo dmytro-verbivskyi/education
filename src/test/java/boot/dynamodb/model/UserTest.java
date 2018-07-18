@@ -25,6 +25,6 @@ public class UserTest {
                 .isNotEqualTo(null)
                 .isNotEqualTo("string")
                 .hasSameHashCodeAs(two)
-                .hasToString("User{id='id', firstName='firstName', lastName='lastName'}");
+                .hasToString("{\"id\":\"id\",\"firstName\":\"firstName\",\"lastName\":\"lastName\"}");
     }
 }
