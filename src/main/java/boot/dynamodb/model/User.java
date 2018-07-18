@@ -59,7 +59,7 @@ public class User implements Serializable {
     @Override
     public boolean equals(Object o) {
         return EqualsBuilder.reflectionEquals(this, o);
-   }
+    }
 
     @Override
     public int hashCode() {
