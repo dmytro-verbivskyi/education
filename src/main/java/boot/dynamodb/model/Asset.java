@@ -1,6 +1,7 @@
 package boot.dynamodb.model;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDocument;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
 import java.io.Serializable;
@@ -49,8 +50,9 @@ public class Asset implements Serializable {
 
     @Override
     public String toString() {
-        return "Asset{assetId=" + assetId
-                + ", status=" + status
-                + '}';
+        return MoreObjects.toStringHelper(this)
+                .add("assetId", assetId)
+                .add("status", status)
+                .toString();
     }
 }

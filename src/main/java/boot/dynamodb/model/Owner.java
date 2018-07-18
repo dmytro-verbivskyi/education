@@ -1,6 +1,7 @@
 package boot.dynamodb.model;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDocument;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
 import java.io.Serializable;
@@ -60,9 +61,10 @@ public class Owner implements Serializable {
 
     @Override
     public String toString() {
-        return "Owner{id='" + id + '\''
-                + ", name='" + name + '\''
-                + ", email='" + email + '\''
-                + '}';
+        return MoreObjects.toStringHelper(this)
+                .add("id", id)
+                .add("name", name)
+                .add("email", email)
+                .toString();
     }
 }

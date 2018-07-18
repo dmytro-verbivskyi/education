@@ -11,8 +11,8 @@ public class OwnerTest {
     public void coverEntity() throws Exception {
         Owner one = new Owner()
                 .setId("55L")
-                .setName("name")
-                .setEmail("email");
+                .setName("owner name")
+                .setEmail("owner email");
 
         Owner two = SerializationUtils.clone(one);
         Owner three = SerializationUtils.clone(one);
@@ -25,6 +25,6 @@ public class OwnerTest {
                 .isNotEqualTo(null)
                 .isNotEqualTo("string")
                 .hasSameHashCodeAs(two)
-                .hasToString("Owner{id='55L', name='name', email='email'}");
+                .hasToString("Owner{id=55L, name=owner name, email=owner email}");
     }
 }

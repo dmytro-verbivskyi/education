@@ -11,8 +11,8 @@ public class UserTest {
     public void coverEntity() throws Exception {
         User one = new User();
         one.setId("id");
-        one.setFirstName("firstName");
-        one.setLastName("lastName");
+        one.setFirstName("first Name");
+        one.setLastName("last Name");
 
         User two = SerializationUtils.clone(one);
         User three = SerializationUtils.clone(one);
@@ -25,6 +25,6 @@ public class UserTest {
                 .isNotEqualTo(null)
                 .isNotEqualTo("string")
                 .hasSameHashCodeAs(two)
-                .hasToString("{\"id\":\"id\",\"firstName\":\"firstName\",\"lastName\":\"lastName\"}");
+                .hasToString("User{id=id, firstName=first Name, lastName=last Name}");
     }
 }
