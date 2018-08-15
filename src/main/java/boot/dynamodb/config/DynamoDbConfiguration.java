@@ -10,6 +10,7 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperConfig;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTypeConverterFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.socialsignin.spring.data.dynamodb.repository.config.EnableDynamoDBRepositories;
@@ -65,6 +66,7 @@ public class DynamoDbConfiguration {
     public DynamoDBMapperConfig dynamoDBMapperConfig(@Autowired DynamicTableNameResolver resolver) {
         return new DynamoDBMapperConfig.Builder()
                 .withTableNameResolver(resolver)
+                .withTypeConverterFactory(DynamoDBTypeConverterFactory.standard())
                 .build();
     }
 
