@@ -13,18 +13,50 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitConfiguration {
 
-    private final String queueName;
+    private final String queueNameOne;
+    private final String queueNameTwo;
     private final String host;
+    private final String queueWf1StateA;
+    private final String queueWf1StateB;
+    private final String queueWf1StateC;
 
-    public RabbitConfiguration(@Value("${queue.name.one}") String queueName,
+    public RabbitConfiguration(@Value("${queue.name.one}") String queueNameOne,
+                               @Value("${queue.name.two}") String queueNameTwo,
+                               @Value("${queue.wf1.state.A}") String queueWf1StateA,
+                               @Value("${queue.wf1.state.B}") String queueWf1StateB,
+                               @Value("${queue.wf1.state.C}") String queueWf1StateC,
                                @Value("${spring.rabbitmq.host}") String host) {
-        this.queueName = queueName;
+        this.queueNameOne = queueNameOne;
+        this.queueNameTwo = queueNameTwo;
+        this.queueWf1StateA = queueWf1StateA;
+        this.queueWf1StateB = queueWf1StateB;
+        this.queueWf1StateC = queueWf1StateC;
         this.host = host;
     }
 
     @Bean
-    Queue queue() {
-        return new Queue(queueName, false);
+    Queue queueWf1StateA() {
+        return new Queue(queueWf1StateA, false);
+    }
+
+    @Bean
+    Queue queueWf1StateB() {
+        return new Queue(queueWf1StateB, false);
+    }
+
+    @Bean
+    Queue queueWf1StateC() {
+        return new Queue(queueWf1StateC, false);
+    }
+
+    @Bean
+    Queue queue1() {
+        return new Queue(queueNameOne, false);
+    }
+
+    @Bean
+    Queue queue2() {
+        return new Queue(queueNameTwo, false);
     }
 
     @Bean
