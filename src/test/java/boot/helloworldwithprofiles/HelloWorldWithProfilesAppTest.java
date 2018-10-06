@@ -1,4 +1,4 @@
-package boot.helloworld;
+package boot.helloworldwithprofiles;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -9,7 +9,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class HelloWorldAppTest {
+public class HelloWorldWithProfilesAppTest {
 
     private static final Logger LOG = LogManager.getLogger();
 
