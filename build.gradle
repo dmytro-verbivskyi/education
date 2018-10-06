@@ -31,6 +31,7 @@ dependencies {
     compile group: 'com.typesafe.akka', name: 'akka-actor_2.12', version: '2.5.11'
     compile group: 'com.google.guava', name: 'guava', version: '19.0'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa'
     compile group: 'com.amazonaws', name: 'aws-java-sdk-dynamodb', version: '1.11.213'
@@ -39,10 +40,11 @@ dependencies {
 
     checkstyle group: 'com.puppycrawl.tools', name: 'checkstyle', version: '8.8'
 
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile group: 'junit', name: 'junit'
     testCompile group: 'org.assertj', name: 'assertj-core', version: '3.9.0'
     testCompile group: 'com.typesafe.akka', name: 'akka-testkit_2.12', version: '2.5.11'
     testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test'
+    testCompile group: 'org.springframework.security', name: 'spring-security-test'
     testCompile group: 'com.amazonaws', name: 'DynamoDBLocal', version: '1.+'
     // SQLite4Java, required by local DynamoDB
     testCompile group: 'com.almworks.sqlite4java', name: 'sqlite4java', version: '1.0.392'

@@ -15,6 +15,8 @@
       <profile default="true" name="Default" enabled="true" />
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="com.dverbivskyi-education_main" target="1.8" />
+      <module name="com.dverbivskyi-education_test" target="1.8" />
       <module name="education_main" target="1.8" />
       <module name="education_test" target="1.8" />
     </bytecodeTargetLevel>
