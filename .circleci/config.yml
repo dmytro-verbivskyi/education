@@ -18,7 +18,7 @@ jobs:
 
       - run:
           name: Testing
-          command: ./gradlew test
+          command: ./gradlew test --info
 
       - run:
           name: Checkstyle
