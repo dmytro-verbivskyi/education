@@ -32,7 +32,7 @@ public class PrimitivesAndWrappersTest {
     public void withNumber() {
         assertThat(Long.MIN_VALUE).isNotZero().isNegative().isLessThanOrEqualTo(42L).isEqualTo(0x7fffffffffffffffL + 1);
 
-        assertThat(102d).as("This message will be a header if any assert of this pipe fails")
+        assertThat(102d)
                 .isEqualTo(Double.valueOf("102"))
                 .isCloseTo(100d, Offset.offset(2d))
                 .hasSameHashCodeAs(Double.parseDouble("102"))
