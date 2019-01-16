@@ -41,9 +41,9 @@ public class FileAssertTest {
         Path path = Paths.get(file.toURI());
         Path tempFolderPath = Paths.get(temporaryFolder.getRoot().toURI());
         assertThat(path).isAbsolute()
-                .isCanonical()
                 .isRegularFile()
                 .isNormalized()
+                .hasBinaryContent(new byte[]{})
                 .hasParent(tempFolderPath)
                 .exists();
     }

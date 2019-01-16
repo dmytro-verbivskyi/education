@@ -1,15 +1,15 @@
 package assertj;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.concurrent.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class FutureAssertTest {
 
+    @Ignore
     @Test
     public void name() throws ExecutionException, InterruptedException {
         Future<String> future = Executors.newCachedThreadPool().submit(() -> {
