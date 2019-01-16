@@ -25,7 +25,7 @@ public class OptionalAssertTest {
             String nullStr = null;
 
             assertThat(Optional.ofNullable(nullStr))
-                    .as("This will be a title for that works %s String.printf() %d",
+                    .as("This will be a title of failing test. It works %s String.printf() %d",
                             "like method", 42)
                     .hasValueSatisfying(s -> assertThat(s).isEqualTo("Hello"));
         } catch (AssertionError e) {
