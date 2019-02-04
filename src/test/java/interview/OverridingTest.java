@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class OverridingTest {
 
+    // Everything is taken by ref... only instance method can be overridden enabling polymorphism.
     @Test
     public void overridingVsHiding() throws Exception {
         A a = new A();
@@ -17,8 +18,8 @@ public class OverridingTest {
         a = new B();
         assertThat(a.staticMethodA()).isEqualTo("A");
         assertThat(a.staticFieldB).isEqualTo("B");
-        assertThat(a.instanceMethodC()).as("real overriding").isEqualTo("C1");
-        assertThat(a.instanceFieldD).as("taking by ref").isEqualTo("D");
+        assertThat(a.instanceMethodC()).as("actual overriding").isEqualTo("C1");
+        assertThat(a.instanceFieldD).isEqualTo("D");
 
         B b = new B();
         assertThat(b.staticMethodA()).isEqualTo("A1");
