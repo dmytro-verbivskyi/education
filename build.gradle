@@ -1,31 +1,36 @@
 buildscript {
     ext {
-        springBootVersion = '2.0.1.RELEASE'
+        appName = 'Education Project'
     }
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-    }
+}
+
+plugins {
+    id 'org.springframework.boot' version '2.2.1.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+    id 'java'
+    id 'application'
+    id 'jacoco'
+}
+
+repositories {
+    mavenCentral()
+    jcenter()
+    maven { url "https://s3-us-west-2.amazonaws.com/dynamodb-local/release" }
+}
+
+configurations {
+    compile.exclude module: 'spring-boot-starter-logging'
+    compile.exclude module: 'spring-boot-starter-jdbc'
+
+    integrationTestCompile.extendsFrom implementation
+    integrationTestRuntime.extendsFrom runtime
 }
 
 group 'com.dverbivskyi'
 version '1.0-SNAPSHOT'
 
-apply plugin: 'java'
-apply plugin: 'org.springframework.boot'
-apply plugin: 'io.spring.dependency-management'
-apply plugin: 'checkstyle'
-apply plugin: 'jacoco'
-
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-
-repositories {
-    mavenCentral()
-    maven { url "https://s3-us-west-2.amazonaws.com/dynamodb-local/release" }
-}
+sourceCompatibility = 1.11
+targetCompatibility = 1.11
 
 dependencies {
     compile group: 'com.typesafe.akka', name: 'akka-actor_2.12', version: '2.5.11'
@@ -33,11 +38,12 @@ dependencies {
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-log4j2'
     compile group: 'com.amazonaws', name: 'aws-java-sdk-dynamodb', version: '1.11.213'
-    compile group: 'com.github.derjust', name: 'spring-data-dynamodb', version: '5.0.2'
+    compile group: 'com.github.derjust', name: 'spring-data-dynamodb', version: '5.1.0'
     compile group: 'com.h2database', name: 'h2'
 
-    checkstyle group: 'com.puppycrawl.tools', name: 'checkstyle', version: '8.8'
+//    checkstyle group: 'com.puppycrawl.tools', name: 'checkstyle', version: '8.8'
 
     testCompile group: 'junit', name: 'junit', version: '4.12'
     testCompile group: 'org.assertj', name: 'assertj-core', version: '3.9.0'
@@ -71,15 +77,34 @@ test {
     }
 }
 
-checkstyle {
-    configFile file("config/checkstyle/checkstyle.xml")
+tasks.withType(Test) {
+    ext.failedTests = []
+
+    afterTest {descriptor, result ->
+        if (result.resultType == TestResult.ResultType.FAILURE) {
+            failedTests << "${descriptor.className} > ${descriptor.name}"
+        }
+    }
+
+    afterSuite {suite, result ->
+        if (!suite.parent && !failedTests.empty) {
+            println "\nFailed tests for ${project.name}:"
+            failedTests.eachWithIndex {failedTest, index ->
+                println "${++index}. ${failedTest}"
+            }
+        }
+    }
 }
-checkstyleMain {
-    source = 'src/main/java'
-}
-checkstyleTest {
-    source = 'src/test/java'
-}
+//
+//checkstyle {
+//    configFile file("config/checkstyle/checkstyle.xml")
+//}
+//checkstyleMain {
+//    source = 'src/main/java'
+//}
+//checkstyleTest {
+//    source = 'src/test/java'
+//}
 
 jacocoTestReport {
     reports {
